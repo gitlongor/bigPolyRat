@@ -1,9 +1,10 @@
 polynomial <-
 function(coef = c(0, 1))
 {
-    a <- as.numeric(coef)
+    # a <- as.numeric(coef)
+	a = as.bigq(coef)
     while((la <- length(a)) > 1 && a[la] == 0) a <- a[-la]
-    structure(a, class = "polynomial")
+    structure(a, class = c("polynomial", 'bigq'))
 }
 
 as.polynomial <-
@@ -67,7 +68,7 @@ function(e1, e2)
                           p <- q <- polynomial(e1)
                           for(i in 2:e2)
                               p <- p * q
-                          as.numeric(p)
+                          #as.numeric(p)
                       })
                },
                "%%" = {
