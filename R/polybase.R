@@ -4,7 +4,7 @@ function(coef = c(0, 1))
     # a <- as.numeric(coef)
 	a = as.bigq(coef)
     while((la <- length(a)) > 1 && a[la] == 0) a <- a[-la]
-    structure(a, class = c("polynomial", 'bigq'))
+    structure(a, class = c('bigq',"polynomial"))
 }
 
 as.polynomial <-
