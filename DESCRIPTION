@@ -1,6 +1,7 @@
-Package: polyRatGmp
-Version: 0.1-0
+Package: bigPolyRat
 Title: Univariate Multiple Precision Polynomial Manipulations
+Version: 0.1-0
+Date: 2015-07-07
 Authors@R: c(person("Bill", "Venables", role = "aut",
                     email = "Bill.Venables@adelaide.edu.au",
                     comment = "S original"),
@@ -19,3 +20,18 @@ Imports: stats, graphics, gmp
 License: GPL-2
 Maintainer: Long Qu <long.qu@wright.edu>
 NeedsCompilation: no
+Collate:
+	'utils.R'
+    'polybasez.R'
+    'polybaseq.R'
+    'polylistz.R'
+    'polylistq.R'
+    'polyxtraz.R'
+    'polyxtraq.R'
+    'rf_basez.R'
+    'rf_baseq.R'
+    'rf_operatorsz.R'
+    'rf_operatorsq.R'
+	'ratlist.R'
+	'internals.R'
+    'rf_deriv_integral.R'

@@ -6,6 +6,14 @@ polynomialz = function(coef = 0)
 }
 
 as.polynomialz = function(x, ...) UseMethod('as.polynomialz')
+as.polynomialz.default <-function(x, ...)
+	if(is.polynomialz(x)) x else polynomialz(x)
+#as.polynomialz.polynomialz <-function(x, ...) x
+as.polynomialz.polynomialq <-function(x, ...) 
+{
+	class(x) = 'bigq'
+	structure(as.bigz(x), class='polynomialz')
+}
 as.polynomialz.default <-function(x, ...) 
 	if(is.polynomialz(x)) x else polynomialz(x)
 is.polynomialz = function(x, ...) UseMethod('is.polynomialz')
@@ -51,7 +59,7 @@ Ops.polynomialz <- function(e1, e2)
                },
                "%/%" = {
                    if(l2 == 0L)
-                       stop("unsupported polynomial division")
+                       stop("division by zero polynomial")
                    if(l2 == 1L)
                        e1 / e2
                    else {
@@ -71,7 +79,8 @@ Ops.polynomialz <- function(e1, e2)
                        return(polynomialq(if(i == 0L) bq0 else r[i:1]))
                    }
                },
-               "^" = {
+               "/" = return(rational(polynomialq(e1),polynomialq(e2))) ,
+			   "^" = {
                    if(l2 != 1L || e2.bak < 0 || e2.bak %% 1 != 0)
                        stop("unsupported polynomial power")
                    switch(as.character(e2),
@@ -122,12 +131,21 @@ function(..., na.rm = FALSE)
 Math.polynomialz <-
 function(x, ...)
 {
+	.Class = c(.Class, 'bigz')
     switch(.Generic,
            round = ,
            signif = ,
            floor = ,
            ceiling = ,
            trunc = x,
+		   sign = {
+				class(x) = 'bigz'
+				NextMethod(.Generic)
+		   }, 
+		   abs = {
+				class(x) = 'bigz'
+				polynomialz(NextMethod(.Generic))
+		   },
            stop(paste(.Generic, "unsupported for polynomials")))
 }
 

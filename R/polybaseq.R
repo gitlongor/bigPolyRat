@@ -1,13 +1,19 @@
 polynomialq = function(coef = 0)
 {
-	a = if(!is.bigq(coef)) as.bigz(coef) else coef
+	a = if(!is.bigq(coef)) as.bigq(coef) else coef
     a = trimZeros(a, 'trailing', empty.OK=FALSE)
     structure(a, class = "polynomialq")
 }
 
 as.polynomialq = function(x, ...) UseMethod('as.polynomialq')
-as.polynomialq.default <-function(x, ...) 
+as.polynomialq.default <-function(x, ...)  
 	if(is.polynomialq(x)) x else polynomialq(x)
+#as.polynomialq.polynomialq <-function(x, ...) x
+as.polynomialq.polynomialz <-function(x, ...) 
+{
+	class(x) = 'bigz'
+	structure(as.bigq(x), class='polynomialq')
+}
 is.polynomialq = function(x, ...) UseMethod('is.polynomialq')
 is.polynomialq.default = function(x, ...)
     inherits(x, "polynomialq")
@@ -57,7 +63,7 @@ Ops.polynomialq <- function(e1, e2)
                    else {
                        p <- rev(e1)
                        q <- rev(e2)
-                       r <- rep.bigq(bz0, l1)
+                       r <- rep.bigq(bq0, l1)
                        i <- 0L
 					     sl2=seq(l2)
                        while(length(p) >= l2) {
@@ -71,6 +77,7 @@ Ops.polynomialq <- function(e1, e2)
                        if(i == 0L) bq0 else r[i:1]
                    }
                },
+			   "/" = return(rational(polynomialq(e1),polynomialq(e2))) ,
                "^" = {
                    if(l2 != 1L || e2.bak < 0 || e2.bak %% 1 != 0)
                        stop("unsupported polynomial power")
@@ -111,9 +118,8 @@ Summary.polynomialq <-
 function(..., na.rm = FALSE)
 {
     ok <- switch(.Generic, sum = , prod = TRUE, FALSE)
-    if(!ok)
-        stop(gettextf("Generic '%s' not defined for \"%s\" objects.",
-                      .Generic, .Class))
+    if(!ok) stop(
+		gettextf("Generic '%s' not defined for \"%s\" objects.", .Generic, .Class))
     switch(.Generic,
            "sum" = Reduce("+", list(...), bq0),
            "prod" = Reduce("*", list(...), bq1))
@@ -122,14 +128,22 @@ function(..., na.rm = FALSE)
 Math.polynomialq <-
 function(x, ...)
 {
-	.NotYetImplemented()
+	
 	.Class = c(.Class, 'bigq')
     switch(.Generic,
            round = ,
            signif = ,
            floor = ,
            ceiling = ,
-           trunc = polynomialq(NextMethod(.Generic)),
+           trunc = .NotYetImplemented(), #polynomialq(NextMethod(.Generic)),
+		   sign = {
+				class(x) = 'bigq'
+				NextMethod(.Generic)
+		   }, 
+		   abs = {
+				class(x) = 'bigq'
+				polynomialq(NextMethod(.Generic))
+		   },
            stop(paste(.Generic, "unsupported for polynomials")))
 }
 
@@ -137,7 +151,7 @@ as.character.polynomialq <- function(x, decreasing = FALSE, ...)
 {
     p <- structure(x, class='bigq')
     lp <- length(p) - 1L
-    idxn0 = p != bz0
+    idxn0 = p != bq0
     p <- p[idxn0]
 
     if(length(p) == 0L) return("0")
@@ -162,7 +176,7 @@ as.character.polynomialq <- function(x, decreasing = FALSE, ...)
 print.polynomialq <-
 function(x, digits = getOption("digits"), decreasing = FALSE, ...)
 {
-    p <- as.character.polynomialz(x,
+    p <- as.character.polynomialq(x,
                                  decreasing = decreasing)
     pc <- nchar(p)
     ow <- max(35, getOption("width"))

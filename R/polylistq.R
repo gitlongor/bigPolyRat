@@ -10,58 +10,59 @@ as.polyqlist <- function(x)
     else polyqlist(x)
 }
 
-deriv.polyqlist <- function(expr, ...) 
-    structure(lapply(expr, deriv), class = class(expr))
+deriv.polyqlist <- deriv.polyzlist 
+#function(expr, ...)  structure(lapply(expr, deriv), class = class(expr))
 
-integral.polyqlist <- function(expr, ...)
-{
-    result <- lapply(expr, integral, ...)
-    #if (length(result) > 0 && is.polynomialq(result[[1L]]))
-    #    class(result) <- class(expr)
-	class(result) = 'polyqlist'
-    result
-}
+integral.polyqlist <- integral.polyzlist 
+#function(expr, ...)
+#{
+#    result <- lapply(expr, integral, ...)
+#    #if (length(result) > 0 && is.polynomialq(result[[1L]]))
+#    #    class(result) <- class(expr)
+#	class(result) = 'polyqlist'
+#    result
+#}
 
-plot.polyqlist <-
-function(x, xlim = 0:1, ylim = range(Px), type = "l", len = 100, ...)
-{.NotYetImplemented()
-    p <- x                              # generic/method
-    if(missing(xlim)) {
-        ## try to cover the "interesting" region
-        xlim <- range(Re(unlist(lapply(p, summary.polynomial))))
-    }
-    if(any(is.na(xlim))) {
-        warning("summary of polynomial fails. Using nominal xlim")
-        xlim <- 0:1
-    }
-    if(diff(xlim) == 0)
-        xlim <- xlim + c(-1, 1)/2
-    if(length(xlim) > 2)
-        x <- xlim
-    else {
-        eps <- diff(xlim)/100
-        xlim <- xlim + c( - eps, eps)
-        x <- seq(xlim[1], xlim[2], len = len)
-    }
-    Px <- unlist(lapply(p, predict.polynomial, x))
-    if(!missing(ylim))
-        Px[Px < ylim[1]] <- Px[Px > ylim[2]] <- NA
-    plot(cbind(x, Px), xlab = "x", ylab = "P(x)", type = "n",
-         xlim = xlim, ylim = ylim, ...)
-    for(i in seq(along = p))
-        lines(p[[i]], lty = i)
-    invisible()
-}
+plot.polyqlist <-plot.polyzlist 
+#function(x, xlim = 0:1, ylim = range(Px), type = "l", len = 100, ...)
+#{.NotYetImplemented()
+#    p <- x                              # generic/method
+#    if(missing(xlim)) {
+#        ## try to cover the "interesting" region
+#        xlim <- range(Re(unlist(lapply(p, summary.polynomial))))
+#    }
+#    if(any(is.na(xlim))) {
+#        warning("summary of polynomial fails. Using nominal xlim")
+#        xlim <- 0:1
+#    }
+#    if(diff(xlim) == 0)
+#        xlim <- xlim + c(-1, 1)/2
+#    if(length(xlim) > 2)
+#        x <- xlim
+#    else {
+#        eps <- diff(xlim)/100
+#        xlim <- xlim + c( - eps, eps)
+#        x <- seq(xlim[1], xlim[2], len = len)
+#    }
+#    Px <- unlist(lapply(p, predict.polynomial, x))
+#    if(!missing(ylim))
+#        Px[Px < ylim[1]] <- Px[Px > ylim[2]] <- NA
+#    plot(cbind(x, Px), xlab = "x", ylab = "P(x)", type = "n",
+#         xlim = xlim, ylim = ylim, ...)
+#    for(i in seq(along = p))
+#        lines(p[[i]], lty = i)
+#    invisible()
+#}
 
-print.polyqlist <-
-function(x, ...)
-{
-    cat("List of polynomials (bigq):\n")
-    y <- x
-    x <- unclass(x)
-    NextMethod()
-    invisible(y)
-}
+print.polyqlist <- print.polyzlist 
+#function(x, ...)
+#{
+#    cat("List of polynomials (bigq):\n")
+#    y <- x
+#    x <- unclass(x)
+#    NextMethod()
+#    invisible(y)
+#}
 
 c.polyqlist <-
 function(..., recursive = FALSE)
@@ -120,7 +121,11 @@ Ops.polyqlist = function(e1, e2)
 		},
 		"^" ={
 			if(any(e2.bak < 0 || e2.bak !=as.bigz(e2.bak))) stop('unsupported polynomial power')
-			mapply(.Generic, e1, e2, SIMPLIFY=FALSE)
+		    if(l1!=l2){
+		        L=max(c(l1,l2))
+		        e1=rep(e1, length.out=L); e2=rep(as.integer(e2.bak), length.out=L)
+		    }
+		    mapply(.Generic, e1, e2, SIMPLIFY=FALSE)
 		}, 
 		stop('unsupported operation on list of polynomials')
 	)
@@ -136,4 +141,7 @@ Ops.polyqlist = function(e1, e2)
 	)
 		
 }
-degree.polyqlist=function(x, all=FALSE, ...) sapply(x, 'degree', all=all, ...)
+degree.polyqlist=degree.polyzlist
+#function(x, all=FALSE, ...) sapply(x, 'degree', all=all, ...)
+
+decartes.polyqlist=decartes.polyzlist

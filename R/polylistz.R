@@ -56,7 +56,7 @@ function(x, xlim = 0:1, ylim = range(Px), type = "l", len = 100, ...)
 print.polyzlist <-
 function(x, ...)
 {
-    cat("List of polynomials (bigz):\n")
+    cat("List of ", class(x), "(s):\n", sep='')
     y <- x
     x <- unclass(x)
     NextMethod()
@@ -83,8 +83,7 @@ function(..., na.rm = FALSE)
 {
     ok <- switch(.Generic, sum = , prod = TRUE, FALSE)
     if(!ok)
-        stop(gettextf("Generic '%s' not defined for \"%s\" objects.",
-                      .Generic, .Class))
+        stop(gettextf("Generic '%s' not defined for \"%s\" objects.", .Generic, .Class))
     switch(.Generic,
            "sum" = Reduce("+", c(...), as.polynomialz(0)),
            "prod" = Reduce("*", c(...), as.polynomialz(1)))
@@ -120,6 +119,10 @@ Ops.polyzlist = function(e1, e2)
 		},
 		"^" ={
 			if(any(e2.bak < 0 || e2.bak !=as.bigz(e2.bak))) stop('unsupported polynomial power')
+		    if(l1!=l2){
+		        L=max(c(l1,l2))
+		        e1=rep(e1, length.out=L); e2=rep(as.integer(e2.bak), length.out=L)
+		    }
 			mapply(.Generic, e1, e2, SIMPLIFY=FALSE)
 		}, 
 		stop('unsupported operation on list of polynomials')
@@ -138,3 +141,5 @@ Ops.polyzlist = function(e1, e2)
 }
 
 degree.polyzlist=function(x, all=FALSE, ...) sapply(x, 'degree', all=all, ...)
+
+decartes.polyzlist=function(x, all=FALSE, ...) sapply(x, 'degree', all=all, ...)

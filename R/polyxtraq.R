@@ -1,4 +1,4 @@
-integral <- function(expr, ...) UseMethod("integral")
+#integral <- function(expr, ...) UseMethod("integral")
 
 if(FALSE){
 change.origin <-
@@ -177,10 +177,10 @@ function(x)
     length(unclass(x)) - 1
 
 }
-.is_zero_polynomial <-
-function(x) degree(x)==0L && coef(x)==0
+#.is_zero_polynomial <-
+#function(x) degree(x)==0L && coef(x)==0
 
-monic = function(p) UseMethod('monic')
+#monic = function(p) UseMethod('monic')
 monic.polynomialq <- function(p)
 {
 	class(p) = 'bigq'
@@ -234,12 +234,12 @@ solve.polynomialq <-function(a, b, method='polyroot', ...)
 {
     if(.is_zero_polynomial(x) || .is_zero_polynomial(y))
         return(as.polynomialq(0))
-    (x / .GCD2.polynomialq(x, y)) * y
+    (x %/% .GCD2.polynomialq(x, y)) * y
 }
 
-GCD <- function(...)  UseMethod("GCD")
+#GCD <- function(...)  UseMethod("GCD")
 
-GCD.polynomialq <- function(...) {
+GCD.polynomialq <-  function(...) {
     args <- c.polyqlist(...)
     if(length(args) < 2)
         stop("Need at least two polynomials.")
@@ -248,12 +248,16 @@ GCD.polynomialq <- function(...) {
 GCD.polyqlist <- GCD.polynomialq
 
 
-LCM <- function(...)   UseMethod("LCM")
+#LCM <- function(...)   UseMethod("LCM")
 
-LCM.polynomialq <- function(...) {
+LCM.polynomialq <-LCM.polynomialz
+function(...) {
     args <- c.polyqlist(...)
     if(length(args) < 2)
         stop("Need at least two polynomials.")
     Reduce(.LCM2.polynomialq,  args[-1], args[[1]])
 }
 LCM.polyqlist <- LCM.polynomialq
+
+#decartes = function(p) UseMethod('decartes')
+decartes.polynomialq = decartes.polynomialz
