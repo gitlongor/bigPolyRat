@@ -71,7 +71,7 @@ Ops.polynomialq <- function(e1, e2)
                            d <- p[1L]/q[1L]
                            r[i] <- d
                            p[sl2] <- p[sl2] - d * q
-						     dim(p) = NULL
+                           dim(p) = dim(r) = NULL
                            p <- p[-1L]
                        }
                        if(i == 0L) bq0 else r[i:1]
