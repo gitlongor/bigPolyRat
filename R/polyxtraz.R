@@ -1,3 +1,4 @@
+if(FALSE){
 change.origin <-
 function(p, o)
 {
@@ -15,9 +16,6 @@ function(p, o)
     }
     polynomial(r)
 }
-
-coef.polynomial <- function(object,...)
-    as.vector(object)
 
 deriv.polynomial <-
 function(expr, ...)
@@ -54,16 +52,6 @@ function(x, len = 100, xlim = NULL, ylim = NULL, ...)
     lines(x, y, ...)
 }
 
-monic <-
-function(p)
-{
-    p <- unclass(p)
-    if(all(p == 0)) {
-        warning("the zero polynomial has no monic form")
-        return(polynomial(0))
-    }
-    polynomial(p/p[length(p)])
-}
 
 plot.polynomial <-
 function(x, xlim = 0:1, ylim = range(Px), 
@@ -170,31 +158,6 @@ function(x, ...)
     invisible(x)
 }
 
-solve.polynomial <-
-function(a, b, ...)
-{
-    if(!missing(b)) 
-        a <- a - b
-    a <- unclass(a)
-    if(a[1] == 0) {
-        z <- rle(a)$lengths[1]
-        a <- a[-(1:z)]
-        r <- rep(0, z)
-    }
-    else
-        r <- numeric(0)
-    switch(as.character(length(a)),
-           "0" =,
-           "1" = r,
-           "2" = sort(c(r,  - a[1]/a[2])),
-       {
-	   a <- rev(unclass(a))
-	   a <- (a/a[1])[-1]
-	   M <- rbind( - a, cbind(diag(length(a) - 1), 0))
-	   sort(c(r, eigen(M, symmetric = FALSE,
-                           only.values = TRUE)$values))
-       })
-}
 
 summary.polynomial <-
 function(object, ...)
@@ -207,49 +170,55 @@ function(object, ...)
               originalPolynomial = object)
 }
 
-.is_zero_polynomial <-
-function(x)
-    identical(x, as.polynomial(0))
 
 .degree <-
 function(x)
     length(unclass(x)) - 1
 
-.GCD2 <-
-function(x, y)
+}
+.is_zero_polynomial <-
+function(x) degree(x)==0L && coef(x)==0
+
+monic = function(p) UseMethod('monic')
+monic.polynomialz <- function(p)
 {
-    if(.is_zero_polynomial(y)) x
-    else if(.degree(y) == 0) as.polynomial(1)
-    else Recall(y, x %% y)
+	class(p) = 'bigz'
+    if(all(p == bz0)) {
+        warning("the zero polynomial has no monic form")
+        return(polynomialq(bz0))
+    }
+    polynomialq(p/p[length(p)])
 }
 
-.LCM2 <-
-function(x, y)
+solve.polynomialz <-function(a, b, method='polyroot', ...)
 {
-    if(.is_zero_polynomial(x) || .is_zero_polynomial(y))
-        return(as.polynomial(0))
-    (x / .GCD2(x, y)) * y
+	method = match.arg(method, c('polyroot', 'eigen', 'bracket'))
+	
+	if(!missing(b)) a <- a - b
+	if(method=='eigen'){
+		class(a) = 'bigz'
+		a1=trimZeros(a, 'leading')
+		r=numeric(length(a)-length(a1))
+		a=a1
+
+		switch(as.character(length(a)),
+			   "0" =,
+			   "1" = r,
+			   "2" = sort(c(r,  as.numeric(- a[1L]/a[2L]))),
+		   {
+		   a <- rev(a)
+		   a <- as.numeric( (a/a[1L])[-1L] )
+		   M <- rbind( - a, cbind(diag(length(a) - 1), 0))
+		   sort(c(r, eigen(M, symmetric = FALSE,
+							   only.values = TRUE)$values))
+		   })
+	}else if(method=='polyroot')	{
+		class(a) = 'bigz'
+		a = as.numeric( a / sum(abs(a)) * length(a) )
+		sort(polyroot(a))
+	}else if(method=='bracket') {
+		.NotYetImplemented()
+	}
 }
 
-GCD <- function(...)
-    UseMethod("GCD")
 
-GCD.polynomial <- function(...) {
-    args <- c.polylist(...)
-    if(length(args) < 2)
-        stop("Need at least two polynomials.")
-    accumulate(.GCD2, args[[1]], args[-1], FALSE)
-}
-GCD.polylist <- GCD.polynomial
-
-
-LCM <- function(...)
-    UseMethod("LCM")
-
-LCM.polynomial <- function(...) {
-    args <- c.polylist(...)
-    if(length(args) < 2)
-        stop("Need at least two polynomials.")
-    accumulate(.LCM2, args[[1]], args[-1], FALSE)
-}
-LCM.polylist <- LCM.polynomial

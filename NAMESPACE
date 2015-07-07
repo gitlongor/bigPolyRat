@@ -1,40 +1,85 @@
+import(gmp)
 importFrom("stats", "coef", "deriv", "poly", "predict")
 importFrom("graphics", "lines", "par", "plot", "points")
 
 export("GCD", "LCM",
-       "as.polylist", "as.polynomial",
-       "change.origin",
-       "integral", "is.polylist", "is.polynomial",
+       "as.polyzlist", "as.polynomialz",
+       #"change.origin",
+       #"integral", 
+	   "is.polyzlist", "is.polynomialz",
        "monic",
-       "poly.calc", "poly.from.roots", "poly.from.values",
-       "poly.from.zeros", "poly.orth", "polylist", "polynomial")
+       #"poly.calc", "poly.from.roots", "poly.from.values",
+       #"poly.from.zeros", "poly.orth", 
+	   "polyzlist", "polynomialz",
+	   
+	   "as.polyqlist", "as.polynomialq",
+       #"change.origin",
+       #"integral", 
+	   "is.polyqlist", "is.polynomialq",
+       "monic",
+       #"poly.calc", "poly.from.roots", "poly.from.values",
+       #"poly.from.zeros", "poly.orth", 
+	   "polyzlist", "polynomialq"
+	   
+	   )
 
-S3method("[", "polylist")
-S3method("GCD", "polylist")
-S3method("GCD", "polynomial")
-S3method("LCM", "polylist")
-S3method("LCM", "polynomial")
-S3method("Math", "polynomial")
-S3method("Ops", "polynomial")
-S3method("Summary", "polylist")
-S3method("Summary", "polynomial")
-S3method("as.character", "polynomial")
-S3method("as.function", "polynomial")
-S3method("c", "polylist")
-S3method("coef", "polynomial")
-S3method("deriv", "polylist")
-S3method("deriv", "polynomial")
-S3method("integral", "polylist")
-S3method("integral", "polynomial")
-S3method("lines", "polynomial")
-S3method("plot", "polylist")
-S3method("plot", "polynomial")
-S3method("points", "polynomial")
-S3method("predict", "polynomial")
-S3method("print", "polylist")
-S3method("print", "polynomial")
-S3method("print", "summary.polynomial")
-S3method("rep", "polylist")
-S3method("solve", "polynomial")
-S3method("summary", "polynomial")
-S3method("unique", "polylist")
+S3method("[", "polyzlist")
+#S3method("GCD", "polyzlist")
+#S3method("GCD", "polynomialz")
+#S3method("LCM", "polyzlist")
+#S3method("LCM", "polynomialz")
+S3method("Math", "polynomialz")
+S3method("Ops", "polynomialz")
+S3method("Summary", "polyzlist")
+S3method("Summary", "polynomialz")
+S3method("as.character", "polynomialz")
+S3method("as.function", "polynomialz")
+S3method("c", "polyzlist")
+S3method("coef", "polynomialz")
+S3method("deriv", "polyzlist")
+#S3method("deriv", "polynomialz")
+S3method("integral", "polyzlist")
+#S3method("integral", "polynomialz")
+#S3method("lines", "polynomialz")
+#S3method("plot", "polyzlist")
+#S3method("plot", "polynomialz")
+#S3method("points", "polynomialz")
+#S3method("predict", "polynomialz")
+S3method("print", "polyzlist")
+S3method("print", "polynomialz")
+#S3method("print", "summary.polynomialz")
+S3method("rep", "polyzlist")
+S3method("solve", "polynomialz")
+#S3method("summary", "polynomialz")
+S3method("unique", "polyzlist")
+
+
+S3method("[", "polyqlist")
+S3method("GCD", "polyqlist")
+S3method("GCD", "polynomialq")
+S3method("LCM", "polyqlist")
+S3method("LCM", "polynomialq")
+S3method("Math", "polynomialq")
+S3method("Ops", "polynomialq")
+S3method("Summary", "polyqlist")
+S3method("Summary", "polynomialq")
+S3method("as.character", "polynomialq")
+S3method("as.function", "polynomialq")
+S3method("c", "polyqlist")
+S3method("coef", "polynomialq")
+S3method("deriv", "polyqlist")
+#S3method("deriv", "polynomialq")
+S3method("integral", "polyqlist")
+#S3method("integral", "polynomialq")
+#S3method("lines", "polynomialq")
+#S3method("plot", "polyqlist")
+#S3method("plot", "polynomialq")
+#S3method("points", "polynomialq")
+#S3method("predict", "polynomialq")
+S3method("print", "polyqlist")
+S3method("print", "polynomialq")
+#S3method("print", "summary.polynomialq")
+S3method("rep", "polyqlist")
+S3method("solve", "polynomialq")
+#S3method("summary", "polynomialq")
+S3method("unique", "polyqlist")
