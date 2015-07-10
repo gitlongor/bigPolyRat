@@ -25,7 +25,8 @@ export("GCD", "LCM",
 	   'numerator', 'denominator', 
 	   'as.rational', 'as.rationalz', 'as.rationalq', 
 	   'is.rational', 'is.rationalz', 'is.rationalq', 
-	   'ratlist'
+	   'ratlist', 
+	   'trimZeros'
 	   )
 
 S3method("[", "polyzlist")
@@ -135,3 +136,7 @@ S3method('Ops', 'rationalq')
 S3method('Summary', 'ratlist')
 S3method('denominator', 'ratlist')
 S3method('numerator', 'ratlist')
+
+S3method('trimZeros', 'default')
+S3method('trimZeros', 'bigz')
+S3method('trimZeros', 'bigq')

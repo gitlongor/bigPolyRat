@@ -197,7 +197,7 @@ solve.polynomialq <-function(a, b, method='polyroot', ...)
 	
 	if(!missing(b)) a <- a - b
 	if(method=='eigen'){
-		class(a) = 'bigq'; dim(a)=NULL
+		class(a) = 'bigq'
 		a1=trimZeros(a, 'leading')
 		r=numeric(length(a)-length(a1))
 		a=a1
