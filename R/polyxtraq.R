@@ -5,7 +5,7 @@ function(expr, ...)
 {
     class(expr) = 'bigq'
     if(length(expr) == 1L)
-        return(pq0)
+        return(polynomialq(bq0))
     expr <- expr[-1L]
     polynomialq(expr * seq_len(length(expr)))
 }

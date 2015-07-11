@@ -74,7 +74,7 @@ lBound.polynomialq=function(p, method=c('Rouche'))
 }
 
 sturm = function(p) UseMethod('sturm')
-sturm.polynomialq = function(p)
+sturm.polynomialq = function(p)  ## this is extremely slow beyond dozens of degree
 {
 	e1 = trimZeros(p)
 	dif = deriv(e1)
@@ -92,3 +92,29 @@ sturm.polynomialq = function(p)
 	}
 	ans
 }
+
+squareFree =function(p, ...) UseMethod('squareFree')
+squareFree.polynomialq = function(p, ...)
+{
+	e1=trimZeros(p)
+	#if(length(e1)==1L) return(e1/e1)
+	#e1=e1/e1[length(e1)]
+	
+	a0=GCD(e1, deriv(e1))
+	b1=e1 %/% a0
+	c1=deriv(e1) %/% a0
+	d1=c1 - deriv(b1)
+	ans=polyqlist()
+	repeat{
+		ai=GCD(b1, d1)
+		b2=b1 %/% ai
+		c2=d1 %/% ai
+		ans = c(ans,  ai)
+		d1=c2 - deriv(b2)
+		b1=trimZeros(b2); c1=c2
+		if(degree(b1)==0L && b1==1) break
+	}
+	class(ans) = 'polyqlist'
+	ans
+}
+

@@ -5,7 +5,7 @@ function(expr, ...)
 {
     class(expr) = 'bigz'
     if(length(expr) == 1L)
-        return(pz0)
+        return(polynomialz(bz0))
     expr <- expr[-1L]
     polynomialz(expr * seq_len(length(expr)))
 }
@@ -262,6 +262,7 @@ LCM.polyzlist <- LCM.polynomialz
 
 decartes = function(p) UseMethod('decartes')
 decartes.default = function(p)
+{
 	sgns=sign(p)
 	sgns=sgns[sgns!=0L]
 	if(length(sgns)==0L){

@@ -27,7 +27,7 @@ export("GCD", "LCM",
 	   'as.rational', 'as.rationalz', 'as.rationalq', 
 	   'is.rational', 'is.rationalz', 'is.rationalq', 
 	   'ratlist', 
-	   'trimZeros', 'uBound', 'lBound', 'sturm'
+	   'trimZeros', 'uBound', 'lBound', 'sturm', 'squareFree'
 	   )
 
 S3method("[", "polyzlist")
@@ -150,3 +150,4 @@ S3method('trimZeros', 'polynomialq')
 S3method('uBound', 'polynomialq')
 S3method('lBound', 'polynomialq')
 S3method('sturm', 'polynomialq')
+S3method('squareFree', 'polynomialq')
