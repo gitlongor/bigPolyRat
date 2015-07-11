@@ -16,8 +16,8 @@ Authors@R: c(person("Bill", "Venables", role = "aut",
                     comment = "gmp support and real root isolation"))
 Description: A collection of functions to implement a class for univariate
   polynomial manipulations with coefficients stored with multiple precision
-Imports: stats, graphics, varComp
-#Depends: gmp
+Imports: stats, graphics
+Depends: gmp
 License: GPL-2
 Maintainer: Long Qu <long.qu@wright.edu>
 NeedsCompilation: no
