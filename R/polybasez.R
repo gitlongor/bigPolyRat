@@ -53,9 +53,10 @@ Ops.polynomialz <- function(e1, e2)
                    NextMethod(.Generic)
                },
                "*" = if(l1 == 1L || l2 == 1L) e1 * e2 else {
-                   m <- as.vector( tcrossprod(e1, e2) )
-					 idx = rep(seq(l2), each=l1) + rep(seq(l1), l2)
-                   as.vector((outer(unique(idx), idx, '==')*1)%*%m)
+					m <-  tcrossprod(e1, e2) ; dim(m)=NULL
+					idx = rep(seq(l2), each=l1) + rep(seq(l1), l2)
+					ans = (outer(unique(idx), idx, '==')*1)%*%m; dim(ans)=NULL
+					ans
                },
                "%/%" = {
                    if(l2 == 0L)
@@ -209,6 +210,17 @@ function(x, ...)
     f <- function(x) NULL
     body(f) <- ex
     f
+}
+
+if(FALSE){
+evaluate = function(p, at, ...) UseMethod('evaluate')
+evaluate.polynomialz = function(p, at, ...)
+{
+	atz=as.bigz(at)
+	if(any(atz != at)) return(evaluate(as.polynomialq(p), as.bigq(at), ...))
+	f=Vectorize(as.function(p))
+	f(atz)
+}
 }
 
 if(FALSE){

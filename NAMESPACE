@@ -27,7 +27,9 @@ export("GCD", "LCM",
 	   'as.rational', 'as.rationalz', 'as.rationalq', 
 	   'is.rational', 'is.rationalz', 'is.rationalq', 
 	   'ratlist', 
-	   'trimZeros', 'uBound', 'lBound', 'sturm', 'squareFree'
+	   'trimZeros', 'uBound', 'lBound', 'sturm', 'squareFree','nRoots'
+	   
+	   #'evaluate'
 	   )
 
 S3method("[", "polyzlist")
@@ -51,7 +53,8 @@ S3method("integral", "polyzlist")
 #S3method("plot", "polyzlist")
 #S3method("plot", "polynomialz")
 #S3method("points", "polynomialz")
-#S3method("predict", "polynomialz")
+S3method("predict", "polynomialz")
+S3method("predict", "polyzlist")
 S3method("print", "polyzlist")
 S3method("print", "polynomialz")
 #S3method("print", "summary.polynomialz")
@@ -88,7 +91,8 @@ S3method("integral", "polyqlist")
 #S3method("plot", "polyqlist")
 #S3method("plot", "polynomialq")
 #S3method("points", "polynomialq")
-#S3method("predict", "polynomialq")
+S3method("predict", "polynomialq")
+S3method("predict", "polyqlist")
 S3method("print", "polyqlist")
 S3method("print", "polynomialq")
 #S3method("print", "summary.polynomialq")
@@ -151,3 +155,10 @@ S3method('uBound', 'polynomialq')
 S3method('lBound', 'polynomialq')
 S3method('sturm', 'polynomialq')
 S3method('squareFree', 'polynomialq')
+S3method('nRoots', 'polynomialq')
+
+#S3method('evaluate', 'polynomialq')
+#S3method('evaluate', 'polynomialz')
+#S3method('evaluate', 'polyqlist')
+#S3method('evaluate', 'polyzlist')
+

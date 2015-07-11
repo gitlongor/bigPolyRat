@@ -10,6 +10,27 @@ function(expr, ...)
     polynomialq(expr * seq_len(length(expr)))
 }
 
+predict.polynomialq <-
+function(object, newdata, ...)
+{
+ 	if(!is.polynomialq(newdata)) newdata=as.bigq(newdata)
+	p <- object
+	
+	if(is.polynomialq(newdata)){
+		v <- polynomialq(bq0)
+		p <- rev(coef(p))
+		for(j in seq_len(length(p)))
+			v <- newdata * v + polynomialq(p[j])
+	}else{
+		v <- bq0
+		p <- rev(coef(p))
+		for(j in seq_len(length(p)))
+			v <- newdata * v + p[j]
+	}
+    v
+}
+
+
 if(FALSE){
 change.origin <-
 function(p, o)
@@ -135,16 +156,7 @@ poly.from.zeros <- function(...) poly.calc(unlist(list(...)))
 poly.from.roots <- poly.from.zeros
 poly.from.values <- poly.calc
 
-predict.polynomial <-
-function(object, newdata, ...)
-{
-    p <- object                         # generic/method    
-    v <- 0
-    p <- rev(unclass(p))
-    for(pj in p)
-        v <- newdata * v + pj
-    v
-}
+
 
 print.summary.polynomial <-
 function(x, ...)

@@ -145,3 +145,5 @@ degree.polyqlist=degree.polyzlist
 #function(x, all=FALSE, ...) sapply(x, 'degree', all=all, ...)
 
 decartes.polyqlist=decartes.polyzlist
+
+predict.polyqlist = predict.polyzlist

@@ -10,6 +10,43 @@ function(expr, ...)
     polynomialz(expr * seq_len(length(expr)))
 }
 
+predict.polynomialz <-
+function(object, newdata, ...)
+{
+	if(is.polynomialz(newdata)){
+		p <- object
+	}else if(is.polynomialq(newdata)){
+		p = as.polynomialq(object)
+	#}else if(is.polynomial(newdata))
+	}else if ( is.bigz(newdata) || is.integer(newdata) ||
+			(is.numeric(newdata) && all(newdata==round(newdata)) )
+	){
+		p = object
+		newdata=as.bigz(newdata)
+	}else{
+		p = as.polynomialq(object)
+		newdata=as.bigq(newdata)
+	}
+	
+	if(is.polynomialq(p)) {
+		.Class = c(.Class, 'polynomialq')
+		return(NextMethod(.Generic, p))
+	}
+	
+	if(is.polynomialz(newdata)){
+		v <- polynomialz(bz0)
+		p <- rev(coef(p))
+		for(j in seq_len(length(p)))
+			v <- newdata * v + polynomialz(p[j])
+	}else{
+		v <- bz0
+		p <- rev(coef(p))
+		for(j in seq_len(length(p)))
+			v <- newdata * v + p[j]
+	}
+    v
+}
+
 if(FALSE){
 change.origin <-
 function(p, o)
@@ -135,16 +172,7 @@ poly.from.zeros <- function(...) poly.calc(unlist(list(...)))
 poly.from.roots <- poly.from.zeros
 poly.from.values <- poly.calc
 
-predict.polynomial <-
-function(object, newdata, ...)
-{
-    p <- object                         # generic/method    
-    v <- 0
-    p <- rev(unclass(p))
-    for(pj in p)
-        v <- newdata * v + pj
-    v
-}
+
 
 print.summary.polynomial <-
 function(x, ...)

@@ -118,3 +118,26 @@ squareFree.polynomialq = function(p, ...)
 	ans
 }
 
+nRoots = function(p, lower, upper, ...) UseMethod('nRoots')
+nRoots.polynomialq = function(p, lower=-upper, upper=uBound(p)*(1+as.bigq(1L,1e22)), method='Sturm', ...)
+{
+	stopifnot(upper>lower)
+	sqFree=squareFree(p)
+	sqFree=sqFree[sapply(sqFree,degree)>=1L]
+	
+	
+	if(length(sqFree)>1L) {
+		numPolyNRealRoot.Recall=eval(match.call(), parent.frame())
+		return(sum(sapply(sqFree, numPolyNRealRoot.Recall, lower,upper, method)))
+	}
+	
+	e1=sqFree[[1L]]
+	method=match.arg(tolower(method), 'sturm')
+	if(method!='sturm') .NotYetImplemented()
+	### sturm's theorem
+		sturm.seq=sturm(e1)
+		evals = predict(sturm.seq, c(as.bigq(lower), as.bigq(upper)), SIMPLIFY=FALSE)
+		nlower=decartes(do.call('c', lapply(evals, '[[', i=1)))
+		nupper=decartes(do.call('c', lapply(evals, '[[', i=2)))
+		return(nlower - nupper)
+}

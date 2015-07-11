@@ -143,3 +143,22 @@ Ops.polyzlist = function(e1, e2)
 degree.polyzlist=function(x, all=FALSE, ...) sapply(x, 'degree', all=all, ...)
 
 decartes.polyzlist=function(x, all=FALSE, ...) sapply(x, 'degree', all=all, ...)
+
+predict.polyzlist=function(object, newdata, SIMPLIFY=FALSE, ...)
+{
+	ans=lapply(object, predict, newdata=newdata)
+	if(SIMPLIFY) {
+		if(is.polynomialz(ans[[1L]]) ){
+			do.call('polyzlist', ans)
+		}else if( is.polynomialq(ans[[1L]]) ){
+			do.call('polyqlist', ans)
+		}else {
+			leng=sapply(ans, length)
+			if(length(unique(leng))==1L){
+				ans = do.call('c', ans)
+				if(leng[1L]>1L)dim(ans) = c(leng, length(leng))
+				ans
+			}else ans
+		}
+	}else ans
+}
