@@ -27,7 +27,7 @@ export("GCD", "LCM",
 	   'as.rational', 'as.rationalz', 'as.rationalq', 
 	   'is.rational', 'is.rationalz', 'is.rationalq', 
 	   'ratlist', 
-	   'trimZeros', 'uBound', 'lBound'
+	   'trimZeros', 'uBound', 'lBound', 'sturm'
 	   )
 
 S3method("[", "polyzlist")
@@ -116,6 +116,9 @@ S3method("decartes", "polynomialz")
 S3method("decartes", "polynomialq")
 S3method("decartes", "polyzlist")
 S3method("decartes", "polyqlist")
+S3method("decartes", "bigz")
+S3method("decartes", "bigq")
+S3method("decartes", "default")
 S3method("degree", "polynomialz")
 S3method("degree", "polynomialq")
 S3method("degree", "polyzlist")
@@ -141,6 +144,9 @@ S3method('numerator', 'ratlist')
 S3method('trimZeros', 'default')
 S3method('trimZeros', 'bigz')
 S3method('trimZeros', 'bigq')
+S3method('trimZeros', 'polynomialz')
+S3method('trimZeros', 'polynomialq')
 
 S3method('uBound', 'polynomialq')
 S3method('lBound', 'polynomialq')
+S3method('sturm', 'polynomialq')

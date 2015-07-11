@@ -229,4 +229,5 @@ function(...) {
 LCM.polyqlist <- LCM.polynomialq
 
 #decartes = function(p) UseMethod('decartes')
+decartes.bigq = decartes.bigz
 decartes.polynomialq = decartes.polynomialz

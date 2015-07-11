@@ -261,8 +261,7 @@ LCM.polynomialz <- function(...) {
 LCM.polyzlist <- LCM.polynomialz
 
 decartes = function(p) UseMethod('decartes')
-decartes.polynomialz = function(p)
-{
+decartes.default = function(p)
 	sgns=sign(p)
 	sgns=sgns[sgns!=0L]
 	if(length(sgns)==0L){
@@ -271,3 +270,5 @@ decartes.polynomialz = function(p)
 		0L
 	}else length(rle(sgns)$length) - 1L
 }
+decartes.bigz = decartes.default
+decartes.polynomialz = decartes.bigz

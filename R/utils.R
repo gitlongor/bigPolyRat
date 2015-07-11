@@ -6,10 +6,13 @@ safeseq = function (from = 1L, to = 1L, by = 1L, ...)
     }
     else seq(from = from, to = to, by = by, ...)
 }
+
 bz0 = as.bigz(0L)
 bq0 = as.bigq(0L)
 bz1 = as.bigz(1L)
 bq1 = as.bigq(1L)
+bzn1 = as.bigz(-1L)
+bqn1 = as.bigq(-1L)
 trimZeros = function(x, end='trailing', empty.OK=TRUE) UseMethod('trimZeros')
 trimZeros.default=function(x, end='trailing', empty.OK=TRUE)
 {
@@ -47,6 +50,12 @@ trimZeros.bigq=function(x, end='trailing', empty.OK=TRUE)
 	if(trailing) ans = rev(ans)
 	if(end=='both') Recall(ans, 'leading', empty.OK) else ans
 }
+
+trimZeros.polynomialz = function(x, end='trailing', empty.OK=TRUE) 
+	polynomialz(trimZeros(coef(x), end, empty.OK))
+	
+trimZeros.polynomialq = function(x, end='trailing', empty.OK=TRUE) 
+	polynomialq(trimZeros(coef(x), end, empty.OK))
 
 if(FALSE){
 ## accumulate a la Abelson and Sussman.

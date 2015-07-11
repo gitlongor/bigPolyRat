@@ -72,3 +72,23 @@ lBound.polynomialq=function(p, method=c('Rouche'))
 	attr(ans, 'bounds')=bnd
 	ans
 }
+
+sturm = function(p) UseMethod('sturm')
+sturm.polynomialq = function(p)
+{
+	e1 = trimZeros(p)
+	dif = deriv(e1)
+	
+	ans=polyqlist(e1, dif)
+	last=dif; last2=e1
+	repeat{
+		tmp = -(last2 %% last)
+		#if(length(tmp)==0) tmp=zero
+		ans=c(ans, tmp)
+		if(degree(tmp)==0L) break
+		#if(length(tmp)==0L) stop('not square free?')
+		last2=last
+		last=tmp
+	}
+	ans
+}
