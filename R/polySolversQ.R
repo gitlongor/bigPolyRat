@@ -52,8 +52,8 @@ uBound.polynomialq=function(p, method=c('Cauchy', 'Lagrange', 'Kojima','Fujiwara
 	for(m in method) bnd[[m]]=switch(m, 
 		Cauchy = bq1 + max (abs(e1[-n]/e1[n])), 
 		Lagrange = max(c(bq1, sum(abs(e1[-n]/e1[n])))),
-		Kojima = if(any(e1==bq0)) Inf else 2 * max(abs(e1[-n]/e1[-1L])*c(.5, rep(1,max(0,n-2)))), 
-		Fujiwara = 2 * max((abs(e1[-n]/e1[n])*c(.5, rep(1,max(0,n-2))))^(1/safeseq(n-1,1,by=-1))),
+		Kojima = if(any(e1==0)) Inf else 2 * max(abs(e1[-n]/e1[-1L])*c(.5, rep(1,max(0,n-2)))), 
+		Fujiwara = as.bigq(2 * max(as.numeric(abs(e1[-n]/e1[n])*c(.5, rep(1,max(0,n-2))))^(1/safeseq(n-1,1,by=-1)))),
 		SumAdjRatio = if(any(e1[-1]==0)) Inf else sum(abs(e1[-n]/e1[-1])),
 		A11 	=,
 		Deutsch = if(any(e1[-1]==0)) Inf else abs(Co[n-1]) + max(abs(Co[-n]/Co[-1])),
@@ -77,11 +77,13 @@ lBound.polynomialq=function(p, method=c('Rouche'))
 	nmethod=length(method)
 	bnd=vector('list', nmethod)
 	names(bnd)=method
-	if('Rouche'%in% method) bnd$Rouche = max(abs(e1[1L])/(abs(e1[1L]) + max(abs(e1[-1L]))), 
-											 abs(e1[1L])/max(abs(e1[1L]),sum(abs(e1[-1L]))))
+	for(m in method) bnd[[m]]=switch(m, 
+		Rouche = max(abs(e1[1L])/(abs(e1[1L]) + max(abs(e1[-1L]))), 
+					 abs(e1[1L])/max(abs(e1[1L]),sum(abs(e1[-1L]))))
+	)
 	nrslt = sapply(bnd, length)
 	if(all(nrslt==0L)){
-		ans = as.bigz(0L)
+		ans = as.bigq(0L)
 	}else ans = max(do.call('c', bnd))
 	attr(ans, 'bounds')=bnd
 	ans

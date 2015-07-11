@@ -157,5 +157,11 @@ S3method('sturm', 'polynomialq')
 S3method('squareFree', 'polynomialq')
 S3method('nRealRoots', 'polynomialq')
 S3method('realRootIso', 'polynomialq')
+S3method('uBound', 'polynomialz')
+S3method('lBound', 'polynomialz')
+S3method('sturm', 'polynomialz')
+S3method('squareFree', 'polynomialz')
+S3method('nRealRoots', 'polynomialz')
+S3method('realRootIso', 'polynomialz')
 
 

@@ -38,3 +38,4 @@ Collate:
 	'internals.R'
     'rf_deriv_integral.R'
 	'polySolversQ.R'
+	'polySolversZ.R'
