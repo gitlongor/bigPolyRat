@@ -1,6 +1,6 @@
 solve.polynomialq <-function(a, b, method='polyroot', ...)
 {
-	method = match.arg(method, c('polyroot', 'eigen', 'bracket'))
+	method = match.arg(method, c('polyroot', 'eigen', 'bisection'))
 	
 	if(!missing(b)) a <- a - b
 	if(method=='eigen'){
@@ -24,7 +24,7 @@ solve.polynomialq <-function(a, b, method='polyroot', ...)
 		class(a) = 'bigq'
 		a = as.numeric( a / sum(abs(a)) * length(a) )
 		sort(polyroot(a))
-	}else if(method=='bracket') {
+	}else if(method=='bisection') {
 		iso = realRootIso(a, ...)
 		nroot=length(iso)
 		ans=do.call('c', lapply(iso, sum))
