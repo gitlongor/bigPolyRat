@@ -48,8 +48,27 @@ uBound.polynomialq=function(p, method=c('Cauchy', 'Lagrange', 'Kojima','Fujiwara
 	nrslt = sapply(bnd, length)
 	if(all(nrslt==0L)) {
 			ans = Inf  # as.bigz(Inf) 
-	}else ans=as.bigz(min(do.call('c', bnd)))
+	}else ans=min(do.call('c', bnd))
 	attr(ans, 'bounds')=bnd
 	ans
 }
 
+
+lBound = function(p, method) UseMethod('lBound')
+lBound.polynomialq=function(p, method=c('Rouche'))
+{
+	e1=trimZeros(coef(p))
+	n=length(e1)
+	method=match.arg(method, several.ok=TRUE)
+	nmethod=length(method)
+	bnd=vector('list', nmethod)
+	names(bnd)=method
+	if('Rouche'%in% method) bnd$Rouche = max(abs(e1[1L])/(abs(e1[1L]) + max(abs(e1[-1L]))), 
+											 abs(e1[1L])/max(abs(e1[1L]),sum(abs(e1[-1L]))))
+	nrslt = sapply(bnd, length)
+	if(all(nrslt==0L)){
+		ans = as.bigz(0L)
+	}else ans = max(do.call('c', bnd))
+	attr(ans, 'bounds')=bnd
+	ans
+}
