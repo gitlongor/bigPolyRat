@@ -42,10 +42,10 @@ numPolyRealRootIso=function(e1, lower=-upper, upper=numPolyRootUBound(e1)*1.001,
 	if(is.infinite(lower)) lower = -numPolyRootUBound(e1)*1.001
 	if(is.infinite(upper)) upper =  numPolyRootUBound(e1)*1.001
 
-	nroots=numPolyNRealRoot(e1, lower, upper)
-	if(nroots==0) return(list())
+	nRealRoots=numPolyNRealRoot(e1, lower, upper)
+	if(nRealRoots==0) return(list())
 
-	if(upper - lower < eps && nroots==1) return(list(c(lower, upper)))
+	if(upper - lower < eps && nRealRoots==1) return(list(c(lower, upper)))
 	
 	mid=.5*(lower+upper)
 #	ans=list()

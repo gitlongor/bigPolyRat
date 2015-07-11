@@ -127,8 +127,8 @@ squareFree.polynomialq = function(p, ...)
 	ans
 }
 
-nRoots = function(p, lower, upper, ...) UseMethod('nRoots')
-nRoots.polynomialq = function(p, lower=-upper, upper=uBound(p)*(1+as.bigq(1L,1e22)), method='Sturm', ...)
+nRealRoots = function(p, lower, upper, ...) UseMethod('nRealRoots')
+nRealRoots.polynomialq = function(p, lower=-upper, upper=uBound(p)*(1+as.bigq(1L,1e22)), method='Sturm', ...)
 {
 	stopifnot(upper>lower)
 	sqFree=squareFree(p)
@@ -136,7 +136,7 @@ nRoots.polynomialq = function(p, lower=-upper, upper=uBound(p)*(1+as.bigq(1L,1e2
 	
 	
 	if(length(sqFree)>1L) {
-		return(sum(sapply(sqFree, nRoots, lower,upper, method,...)))
+		return(sum(sapply(sqFree, nRealRoots, lower,upper, method,...)))
 	}
 	
 	e1=sqFree[[1L]]
@@ -148,4 +148,23 @@ nRoots.polynomialq = function(p, lower=-upper, upper=uBound(p)*(1+as.bigq(1L,1e2
 		nlower=decartes(do.call('c', lapply(evals, '[[', i=1)))
 		nupper=decartes(do.call('c', lapply(evals, '[[', i=2)))
 		return(nlower - nupper)
+}
+
+realRootIso = function(p, ...) UseMethod('realRootIso')
+realRootIso.polynomialq=function(p, lower=-upper, upper=uBound(p)*(1+as.bigq(1L,1e22)), eps=as.bigq(1, 1e3), method='bisect',...)
+{
+	## bisection based on Sturm's theorem
+	if(is.infinite(lower)) lower = -uBound(p)*(1+as.bigq(1L,1e22))
+	if(is.infinite(upper)) upper =  uBound(p)*(1+as.bigq(1L,1e22))
+	eps = as.bigq(eps)
+	lower = as.bigq(lower)
+	upper = as.bigq(upper)
+
+	nRealRoots=nRealRoots(p, lower, upper)
+	if(nRealRoots==0) return(list())
+
+	if(upper - lower < eps && nRealRoots==1) return(list(c(lower, upper)))
+	
+	mid=(lower+upper)/2
+	c(realRootIso(p, lower, mid, eps,...), realRootIso(p, mid, upper, eps))
 }
