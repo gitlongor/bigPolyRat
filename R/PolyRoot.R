@@ -37,44 +37,6 @@ numPolyVar.list=function(e1, at, ...)
 numPolyVar=function(e1, ...) UseMethod('numPolyVar')
 
 
-numPolySturmSeq=function(e1)
-{	if(is.numeric(e1[[1L]])) {
-		neg1=-1 ; zero=0
-	}else {
-		neg1=as.bigq(-1); zero=as.bigq(0)
-	}
-	e1=trimZeros(e1)
-	dif=numPolyDeriv(e1)
-	ans=list(e1, dif)
-	last=dif; last2=e1
-	repeat{
-		tmp = numPolyMult(neg1, numPolyDiv(last2, last)$remainder)
-		if(length(tmp)==0) tmp=zero
-		ans=c(ans, list(tmp))
-		if(length(tmp)==1L) break
-		#if(length(tmp)==0L) stop('not square free?')
-		last2=last
-		last=tmp
-	}
-	ans
-}
-
-numPolyNRealRoot=function(e1, lower=-upper, upper=numPolyRootUBound(e1)*1.001, method='Sturm')
-{	stopifnot(upper>lower)
-	sqFree=numPolySquareFree(e1)
-	sqFree=sqFree[sapply(sqFree,length)>1L]
-	
-	numPolyNRealRoot.Recall=eval(match.call(), parent.frame())
-	if(length(sqFree)>1L) return(sum(sapply(sqFree, numPolyNRealRoot.Recall, lower,upper, method)))
-	
-	e1=sqFree[[1L]]
-	method=match.arg(method)
-	if(method!='Sturm') .NotYetImplemented()
-	### sturm's theorem
-		sturm.seq=numPolySturmSeq(e1)
-		return(numPolyVar(sturm.seq, lower) - numPolyVar(sturm.seq, upper))
-}
-
 numPolyRealRootIso=function(e1, lower=-upper, upper=numPolyRootUBound(e1)*1.001, eps=1e-3)
 {## bisection based on Sturm's theorem
 	if(is.infinite(lower)) lower = -numPolyRootUBound(e1)*1.001

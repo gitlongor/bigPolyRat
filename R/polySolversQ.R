@@ -30,21 +30,30 @@ solve.polynomialq <-function(a, b, method='polyroot', ...)
 }
 
 uBound = function(p, method) UseMethod('uBound')
-
-uBound.polynomialq=function(p, method=c('Cauchy', 'Lagrange', 'Kojima','Fujiwara','SumAdjRatio'))
+uBound.methods=c('Cauchy', 'Lagrange', 'Kojima','Fujiwara','SumAdjRatio','Kalantari05','Deutsch',paste0('A',1:31),paste0('B',1:14))
+uBound.polynomialq=function(p, method=c('Cauchy', 'Lagrange', 'Kojima','Fujiwara','SumAdjRatio','Deutsch'))
 {
 	e1=trimZeros(coef(p))
-	n=length(e1)
-	method=match.arg(method, several.ok=TRUE)
+	method=match.arg(method, uBound.methods, several.ok=TRUE)
 	nmethod=length(method)
-	if(nmethod==0L)stop('"method needs to be one of c("Cauchy", "Lagrange", "Kojima","Fujiwara","SumAdjRatio")')
+	
+	if(nmethod==0L)stop(paste("method needs to be one of", paste(dQuote(uBound.methods),collapse=',')))
 	bnd=vector('list' , nmethod)
 	names(bnd)=method
-	if('Cauchy'%in% method)	bnd[["Cauchy"]] = bq1 + max (abs(e1[-n]/e1[n]))
-	if('Lagrange'%in% method) bnd[["Lagrange"]] = max(c(bq1, sum(abs(e1[-n]/e1[n]))))
-	if('Kojima'%in% method) bnd[["Kojima"]] = if(any(e1==bq0)) Inf else 2 * max(abs(e1[-n]/e1[-1L])*c(.5, rep(1,max(0,n-2))))
-	if('Fujiwara'%in% method) bnd[["Fujiwara"]] = 2 * max((abs(e1[-n]/e1[n])*c(.5, rep(1,max(0,n-2))))^(1/safeseq(n-1,1,by=-1)))
-	if('SumAdjRatio'%in% method) bnd[["SumAdjRatio"]] = if(any(e1[-1]==0)) Inf else sum(abs(e1[-n]/e1[-1]))
+	
+	n=length(e1)
+	Co = e1/e1[n]
+	
+	for(m in method) bnd[[m]]=switch(m, 
+		Cauchy = bq1 + max (abs(e1[-n]/e1[n])), 
+		Lagrange = max(c(bq1, sum(abs(e1[-n]/e1[n])))),
+		Kojima = if(any(e1==bq0)) Inf else 2 * max(abs(e1[-n]/e1[-1L])*c(.5, rep(1,max(0,n-2)))), 
+		Fujiwara = 2 * max((abs(e1[-n]/e1[n])*c(.5, rep(1,max(0,n-2))))^(1/safeseq(n-1,1,by=-1))),
+		SumAdjRatio = if(any(e1[-1]==0)) Inf else sum(abs(e1[-n]/e1[-1])),
+		A11 	=,
+		Deutsch = if(any(e1[-1]==0)) Inf else abs(Co[n-1]) + max(abs(Co[-n]/Co[-1])),
+		Inf
+	)
 	nrslt = sapply(bnd, length)
 	if(all(nrslt==0L)) {
 			ans = Inf  # as.bigz(Inf) 
@@ -127,8 +136,7 @@ nRoots.polynomialq = function(p, lower=-upper, upper=uBound(p)*(1+as.bigq(1L,1e2
 	
 	
 	if(length(sqFree)>1L) {
-		numPolyNRealRoot.Recall=eval(match.call(), parent.frame())
-		return(sum(sapply(sqFree, numPolyNRealRoot.Recall, lower,upper, method)))
+		return(sum(sapply(sqFree, nRoots, lower,upper, method,...)))
 	}
 	
 	e1=sqFree[[1L]]
