@@ -22,9 +22,6 @@ License: GPL-2
 Maintainer: Long Qu <long.qu@wright.edu>
 NeedsCompilation: no
 Collate:
-	'eigenPolyRoot.R'
-	'NumericPolynomialAlgebra.R'
-	'PolyRoot.R'
 	'SymbolicPolynomialAlgebra.R'
 	'utils.R'
     'polybasez.R'
