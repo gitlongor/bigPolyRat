@@ -25,7 +25,12 @@ solve.polynomialq <-function(a, b, method='polyroot', ...)
 		a = as.numeric( a / sum(abs(a)) * length(a) )
 		sort(polyroot(a))
 	}else if(method=='bracket') {
-		.NotYetImplemented()
+		iso = realRootIso(a, ...)
+		nroot=length(iso)
+		ans=do.call('c', lapply(iso, sum))
+		ans = ans /2
+		attr(ans, 'intervals') = iso
+		ans
 	}
 }
 
