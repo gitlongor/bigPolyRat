@@ -1,7 +1,7 @@
 Package: bigPolyRat
 Title: Univariate Multiple Precision Polynomial Manipulations
 Version: 0.1-0
-Date: 2015-07-07
+Date: 2015-07-10
 Authors@R: c(person("Bill", "Venables", role = "aut",
                     email = "Bill.Venables@adelaide.edu.au",
                     comment = "S original"),

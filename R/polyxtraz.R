@@ -1,5 +1,15 @@
 integral <- function(expr, ...) UseMethod("integral")
 
+deriv.polynomialz <-
+function(expr, ...)
+{
+    class(expr) = 'bigz'
+    if(length(expr) == 1L)
+        return(pz0)
+    expr <- expr[-1L]
+    polynomialz(expr * seq_len(length(expr)))
+}
+
 if(FALSE){
 change.origin <-
 function(p, o)
@@ -19,15 +29,6 @@ function(p, o)
     polynomial(r)
 }
 
-deriv.polynomial <-
-function(expr, ...)
-{
-    expr <- unclass(expr)
-    if(length(expr) == 1)
-        return(polynomial(0))
-    expr <- expr[-1]
-    polynomial(expr * seq(along = expr))
-}
 
 
 integral.polynomial <-

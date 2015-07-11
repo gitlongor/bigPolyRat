@@ -37,21 +37,6 @@ numPolyVar.list=function(e1, at, ...)
 numPolyVar=function(e1, ...) UseMethod('numPolyVar')
 
 
-numPolyRootLBound=function(e1, method=c('Rouche'))
-{
-	e1=trimZeros(e1)
-	n=length(e1)
-	method=match.arg(method, several.ok=TRUE)
-	nmethod=length(method)
-	bnd=vector('list', nmethod)
-	names(bnd)=method
-	if('Rouche'%in% method) bnd$Rouche = max(abs(e1[1L])/(abs(e1[1L]) + max(abs(e1[-1L]))), 
-											 abs(e1[1L])/max(abs(e1[1L]),sum(abs(e1[-1L]))))
-	ans=max(0, unlist(bnd), na.rm=TRUE)
-	attr(ans, 'bounds')=bnd
-	ans
-}
-
 numPolySturmSeq=function(e1)
 {	if(is.numeric(e1[[1L]])) {
 		neg1=-1 ; zero=0
