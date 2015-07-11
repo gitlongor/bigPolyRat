@@ -1,6 +1,7 @@
 import(gmp)
 importFrom("stats", "coef", "deriv", "poly", "predict")
 importFrom("graphics", "lines", "par", "plot", "points")
+#importFrom("varComp", "safeseq")
 
 export("GCD", "LCM",
        "as.polyzlist", "as.polynomialz",
@@ -26,7 +27,7 @@ export("GCD", "LCM",
 	   'as.rational', 'as.rationalz', 'as.rationalq', 
 	   'is.rational', 'is.rationalz', 'is.rationalq', 
 	   'ratlist', 
-	   'trimZeros'
+	   'trimZeros', 'uBound'
 	   )
 
 S3method("[", "polyzlist")
@@ -140,3 +141,5 @@ S3method('numerator', 'ratlist')
 S3method('trimZeros', 'default')
 S3method('trimZeros', 'bigz')
 S3method('trimZeros', 'bigq')
+
+S3method('uBound', 'polynomialq')

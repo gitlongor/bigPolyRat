@@ -36,23 +36,6 @@ numPolyVar.list=function(e1, at, ...)
 }
 numPolyVar=function(e1, ...) UseMethod('numPolyVar')
 
-numPolyRootUBound=function(e1, method=c('Cauchy', 'Lagrange', 'Kojima','Fujiwara','SumAdjRatio'))
-{
-	e1=trimZeros(e1)
-	n=length(e1)
-	method=match.arg(method, several.ok=TRUE)
-	nmethod=length(method)
-	bnd=vector('list', nmethod)
-	names(bnd)=method
-	if('Cauchy'%in% method)	bnd$Cauchy = 1 + max (abs(e1[-n]/e1[n]))
-	if('Lagrange'%in% method) bnd$Lagrange = max(1, sum(abs(e1[-n]/e1[n])))
-	if('Kojima'%in% method) bnd$Kojima = if(any(e1==0)) Inf else 2 * max(abs(e1[-n]/e1[-1L])*c(.5, rep(1,max(0,n-2))))
-	if('Fujiwara'%in% method) bnd$Fujiwara = 2 * max((abs(e1[-n]/e1[n])*c(.5, rep(1,max(0,n-2))))^(1/safeseq(n-1,1,by=-1)))
-	if('SumAdjRatio'%in% method) bnd$SumAdjRatio = if(any(e1[-1]==0)) Inf else sum(abs(e1[-n]/e1[-1]))
-	ans=min(unlist(bnd), Inf, na.rm=TRUE)
-	attr(ans, 'bounds')=bnd
-	ans
-}
 
 numPolyRootLBound=function(e1, method=c('Rouche'))
 {

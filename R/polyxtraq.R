@@ -191,38 +191,6 @@ monic.polynomialq <- function(p)
     polynomialq(p/p[length(p)])
 }
 
-solve.polynomialq <-function(a, b, method='polyroot', ...)
-{
-	method = match.arg(method, c('polyroot', 'eigen', 'bracket'))
-	
-	if(!missing(b)) a <- a - b
-	if(method=='eigen'){
-		class(a) = 'bigq'
-		a1=trimZeros(a, 'leading')
-		r=numeric(length(a)-length(a1))
-		a=a1
-
-		switch(as.character(length(a)),
-			   "0" =,
-			   "1" = r,
-			   "2" = sort(c(r,  as.numeric(- a[1L]/a[2L]))),
-		   {
-		   a <- rev(a)
-		   a <- as.numeric( (a/a[1L])[-1L] )
-		   M <- rbind( - a, cbind(diag(length(a) - 1), 0))
-		   sort(c(r, eigen(M, symmetric = FALSE,
-							   only.values = TRUE)$values))
-		   })
-	}else if(method=='polyroot')	{
-		class(a) = 'bigq'
-		a = as.numeric( a / sum(abs(a)) * length(a) )
-		sort(polyroot(a))
-	}else if(method=='bracket') {
-		.NotYetImplemented()
-	}
-}
-
-
 .GCD2.polynomialq <- function(x, y)
 {
     if(.is_zero_polynomial(y)) x

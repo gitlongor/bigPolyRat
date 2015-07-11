@@ -1,0 +1,55 @@
+solve.polynomialq <-function(a, b, method='polyroot', ...)
+{
+	method = match.arg(method, c('polyroot', 'eigen', 'bracket'))
+	
+	if(!missing(b)) a <- a - b
+	if(method=='eigen'){
+		class(a) = 'bigq'
+		a1=trimZeros(a, 'leading')
+		r=numeric(length(a)-length(a1))
+		a=a1
+
+		switch(as.character(length(a)),
+			   "0" =,
+			   "1" = r,
+			   "2" = sort(c(r,  as.numeric(- a[1L]/a[2L]))),
+		   {
+		   a <- rev(a)
+		   a <- as.numeric( (a/a[1L])[-1L] )
+		   M <- rbind( - a, cbind(diag(length(a) - 1), 0))
+		   sort(c(r, eigen(M, symmetric = FALSE,
+							   only.values = TRUE)$values))
+		   })
+	}else if(method=='polyroot')	{
+		class(a) = 'bigq'
+		a = as.numeric( a / sum(abs(a)) * length(a) )
+		sort(polyroot(a))
+	}else if(method=='bracket') {
+		.NotYetImplemented()
+	}
+}
+
+uBound = function(p, method) UseMethod('uBound')
+
+uBound.polynomialq=function(p, method=c('Cauchy', 'Lagrange', 'Kojima','Fujiwara','SumAdjRatio'))
+{
+	e1=trimZeros(coef(p))
+	n=length(e1)
+	method=match.arg(method, several.ok=TRUE)
+	nmethod=length(method)
+	if(nmethod==0L)stop('"method needs to be one of c("Cauchy", "Lagrange", "Kojima","Fujiwara","SumAdjRatio")')
+	bnd=vector('list' , nmethod)
+	names(bnd)=method
+	if('Cauchy'%in% method)	bnd[["Cauchy"]] = bq1 + max (abs(e1[-n]/e1[n]))
+	if('Lagrange'%in% method) bnd[["Lagrange"]] = max(c(bq1, sum(abs(e1[-n]/e1[n]))))
+	if('Kojima'%in% method) bnd[["Kojima"]] = if(any(e1==bq0)) Inf else 2 * max(abs(e1[-n]/e1[-1L])*c(.5, rep(1,max(0,n-2))))
+	if('Fujiwara'%in% method) bnd[["Fujiwara"]] = 2 * max((abs(e1[-n]/e1[n])*c(.5, rep(1,max(0,n-2))))^(1/safeseq(n-1,1,by=-1)))
+	if('SumAdjRatio'%in% method) bnd[["SumAdjRatio"]] = if(any(e1[-1]==0)) Inf else sum(abs(e1[-n]/e1[-1]))
+	nrslt = sapply(bnd, length)
+	if(all(nrslt==0L)) {
+			ans = Inf  # as.bigz(Inf) 
+	}else ans=as.bigz(min(do.call('c', bnd)))
+	attr(ans, 'bounds')=bnd
+	ans
+}
+

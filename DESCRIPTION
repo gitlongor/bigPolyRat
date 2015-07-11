@@ -16,11 +16,16 @@ Authors@R: c(person("Bill", "Venables", role = "aut",
                     comment = "gmp support"))
 Description: A collection of functions to implement a class for univariate
   polynomial manipulations with coefficients stored with multiple precision
-Imports: stats, graphics, gmp
+Imports: stats, graphics, varComp
+#Depends: gmp
 License: GPL-2
 Maintainer: Long Qu <long.qu@wright.edu>
 NeedsCompilation: no
 Collate:
+	'eigenPolyRoot.R'
+	'NumericPolynomialAlgebra.R'
+	'PolyRoot.R'
+	'SymbolicPolynomialAlgebra.R'
 	'utils.R'
     'polybasez.R'
     'polybaseq.R'
@@ -35,3 +40,4 @@ Collate:
 	'ratlist.R'
 	'internals.R'
     'rf_deriv_integral.R'
+	'polySolversQ.R'
