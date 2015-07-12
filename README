@@ -1,1 +1,1 @@
-Polynomial (based on polynom) and rational (based on rationalfun) functions with coefficients stored as either bigz or bigq (based on gmp)
+Univariate polynomial (based on polynom) and rational (based on rationalfun) functions with coefficients stored as numeric (polynom default), bigz, bigq (based on gmp) or mpfr (based Rmpfr) and solvers of univariate polynomial equations
