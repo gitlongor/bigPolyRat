@@ -1,4 +1,5 @@
 import(gmp)
+import(Rmpfr)
 importFrom("stats", "coef", "deriv", "poly", "predict")
 importFrom("graphics", "lines", "par", "plot", "points")
 #importFrom("varComp", "safeseq")

@@ -17,7 +17,7 @@ Authors@R: c(person("Bill", "Venables", role = "aut",
 Description: A collection of functions to implement a class for univariate
   polynomial manipulations with coefficients stored with multiple precision
 Imports: stats, graphics
-Depends: gmp
+Depends: gmp, Rmpfr
 License: GPL-2
 Maintainer: Long Qu <long.qu@wright.edu>
 NeedsCompilation: no
