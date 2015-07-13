@@ -54,7 +54,7 @@ uBound.polynomialq=function(p, method=c('Cauchy', 'Lagrange', 'Kojima','Fujiwara
 		Lagrange = max(c(bq1, sum(abs(e1[-n]/e1[n])))),
 		Kojima = if(any(e1==0)) Inf else 2 * max(abs(e1[-n]/e1[-1L])*c(.5, rep(1,max(0,n-2)))), 
 		Fujiwara = {
-			tmp = 2 * max(as.numeric(abs(e1[-n]/e1[n])*c(.5, rep(1,max(0,n-2))))^(1/safeseq(n-1,1,by=-1))),
+			tmp = 2 * max(as.numeric(abs(e1[-n]/e1[n])*c(.5, rep(1,max(0,n-2))))^(1/safeseq(n-1,1,by=-1)))
 			if(is.finite(tmp)) as.bigq(tmp) else Inf
 		},
 		SumAdjRatio = if(any(e1[-1]==0)) Inf else sum(abs(e1[-n]/e1[-1])),
