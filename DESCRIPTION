@@ -13,7 +13,12 @@ Authors@R: c(person("Bill", "Venables", role = "aut",
                     comment = "R port"),
              person("Long", "Qu", role = c("aut", 'cre'),
                     email = "long.qu@wright.edu",
-                    comment = "gmp support and real root isolation"))
+                    comment = "gmp support and real root isolation"), 
+             person("Yixuan", "Qiu", role = "aut",
+                    comment = "author of rationalfun"), 
+             person("Yan", "Su", role = "aut",
+                    comment = "mpfr support")
+					)
 Description: A collection of functions to implement a class for univariate
   polynomial manipulations with coefficients stored with multiple precision
 Imports: stats, graphics
