@@ -125,8 +125,8 @@ function(..., na.rm = FALSE)
         stop(gettextf("Generic '%s' not defined for \"%s\" objects.",
                       .Generic, .Class))
     switch(.Generic,
-           "sum" = Reduce("+", list(...), bz0),
-           "prod" = Reduce("*", list(...), bz1))
+           "sum" = Reduce("+", list(...), polynomialz(bz0)),
+           "prod" = Reduce("*", list(...), polynomialz(bz1)))
 }
 
 Math.polynomialz <-
