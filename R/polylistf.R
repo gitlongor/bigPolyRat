@@ -13,15 +13,15 @@ as.polyflist <- function(x)
 deriv.polyflist <- function(expr, ...)  
   structure(lapply(expr, deriv), class = class(expr))
 
-integral.polyflist <- integral.polyzlist 
-#function(expr, ...)
-#{
-#    result <- lapply(expr, integral, ...)
-#    #if (length(result) > 0 && is.polynomialq(result[[1L]]))
-#    #    class(result) <- class(expr)
-#	class(result) = 'polyqlist'
-#    result
-#}
+integral.polyflist =
+function(expr, ...)
+{
+    result <- lapply(expr, integral, ...)
+    #if (length(result) > 0 && is.polynomialq(result[[1L]]))
+    #    class(result) <- class(expr)
+	class(result) = 'polyflist'
+    result
+}
 
 plot.polyflist <-plot.polyzlist 
 #function(x, xlim = 0:1, ylim = range(Px), type = "l", len = 100, ...)
