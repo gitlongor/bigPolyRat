@@ -1,3 +1,5 @@
+if(FALSE){  ## currently, not used at all
+
 addSymbol=as.symbol('+')
 multSymbol=as.symbol('*')
 subtSymbol=as.symbol('-')
@@ -125,3 +127,4 @@ symPolyRatSimSum=function(numer, denom)
 }
 #symPolyRatSimSum(list(expression(0,1),expression(2)),rep(list(expression(3,2,1)),2))
 
+}
