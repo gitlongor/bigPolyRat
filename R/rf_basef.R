@@ -1,5 +1,5 @@
 # rational = function(numerator, denominator,...) UseMethod('rational',numerator)
-# rational.default = function(nuemrator=0, denominator=1, SIMPLIFY=FALSE, ...) 
+# rational.default = function(nuemrator=0, denominator=1, SIMPLIFY=FALSE, ...)
 # rational(as.polynomialq(numerator), as.polynomialq(denominator), SIMPLIFY...)
 rational.polynomialf <- function(numerator =polynomialf(0), denominator = polynomialq(1), SIMPLIFY=FALSE,...)
 {
@@ -15,7 +15,7 @@ rational.polynomialf <- function(numerator =polynomialf(0), denominator = polyno
   ans
 }
 
-rational.polyqlist = rational.polyzlist 
+rational.polyqlist = rational.polyzlist
 # function(numerator, denominator, SIMPLIFY=FALSE, ...)
 # {
 # if(!missing(denominator)) warning("'denominator' is discarded")
@@ -32,7 +32,7 @@ rational.polyqlist = rational.polyzlist
 # rational(polynomiaz(x), ...)
 # }else   rational(polynomiaq(x), ...)
 # }
-as.rational.polynomialf = as.rational.polynomialf
+#as.rational.polynomialf = as.rational.polynomialf
 #function(x, ...)rational(x, ...)
 
 as.rationalf = function(x, ...)UseMethod('as.rationalf')
@@ -60,9 +60,9 @@ as.function.rationalf <- as.function.rationalz
 # {
 # numerator.fun = as.function(x$numerator)
 # denominator.fun = as.function(x$denominator)
-# ex <- call("{", 
-# call("/", 
-# call('numerator.fun', quote(x)), 
+# ex <- call("{",
+# call("/",
+# call('numerator.fun', quote(x)),
 # call('denominator.fun', quote(x))))
 
 # f <- function(x) NULL;
@@ -70,7 +70,7 @@ as.function.rationalf <- as.function.rationalz
 # return(f);
 # }
 
-as.character.rationalf <- as.character.rationalz 
+as.character.rationalf <- as.character.rationalz
 # function(x, ...)
 # {
 # numer <- as.character(x$numerator);
@@ -103,7 +103,7 @@ if(FALSE){
   }
 }
 
-print.rationalf <- print.rationalz 
+print.rationalf <- print.rationalz
 # function(x, ...)
 # {
 # numer <- as.character(x$numerator);
@@ -121,4 +121,3 @@ print.rationalf <- print.rationalz
 # cat(rep(" ", nspace), denom, "\n", sep = "");
 # }
 # }
-
