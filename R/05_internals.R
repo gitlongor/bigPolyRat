@@ -1,3 +1,45 @@
+## Get "zero" that has the same type with x
+# getZero(1)
+# getZero(as.bigz("23"))
+# getZero(as.bigq(3, 6))
+# getZero(mpfr(4.5, 128))
+getZero = function(x)
+{
+    switch(class(x),
+           integer = 0,
+           numeric = 0,
+           bigz = as.bigz(0),
+           bigq = as.bigq(0),
+           mpfr = mpfr(0, max(getPrec(x))),
+           stop("unsupported type"))
+}
+
+## Trim zeros in a vector
+# x = c(0, 0, 2, 3, 4, 5, 0, 0, 1, 0)
+# trimZeros(x)
+# trimZeros(as.bigz(x))
+# trimZeros(as.bigq(x))
+# trimZeros(mpfr(x, 128))
+trimZeros = function(x, end = 'trailing', empty.OK = TRUE)
+{
+    end = match.arg(end, c('leading', 'trailing', 'both'))
+    trailing = any(end == c('trailing','both'))
+    
+    zero = getZero(x)
+    
+    if(trailing) x = rev(x)
+    nzeros = sum(cumsum(abs(x)) == zero)
+    ans = if(nzeros > 0) x[-seq(nzeros)] else x
+    if(!empty.OK && length(ans) == 0L) ans = zero
+    if(trailing) ans = rev(ans)
+    if(end == 'both') Recall(ans, 'leading', empty.OK) else ans
+}
+
+
+
+
+
+
 if(FALSE){
 # Code from "polynom" package with some modifications
 .poly2expr <- function(x, var.name)
