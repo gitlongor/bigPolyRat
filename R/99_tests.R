@@ -11,15 +11,17 @@ p = list(
 )
 
 lapply(p[1:3], function(e) {
-    +e
-    -e
-    2 * e
-    e * 2
-    e / 2
-    e + e
-    e - e
-    e * e
-    e^0
-    e^1
-    e^3
+    print(+e)
+    print(-e)
+    print(2 * e)
+    print(e * 2)
+    print(e / 2)
+    print(e + e)
+    print(e - e)
+    print(e * e)
+    print(e^0)
+    print(e^1)
+    print(e^3)
+    print(e == e + polynomial(0))
+    print(e != e + polynomial(1))
 })

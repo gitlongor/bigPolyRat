@@ -66,11 +66,11 @@ setMethod("+", signature(e1 = "bigPoly", e2 = "bigPoly"),
               l2 = length(e2@coef)
               if(l1 >= l2)
               {
-                  e1@coef[1:l2] = e1@coef[1:l2] + e2@coef
-                  return(polynomial(e1@coef))
+                  new_coef = e1@coef + c(e2@coef, getZero(e2@coef, l1 - l2))
+                  return(polynomial(new_coef))
               } else {
-                  e2@coef[1:l1] = e2@coef[1:l1] + e1@coef
-                  return(polynomial(e2@coef))
+                  new_coef = c(e1@coef, getZero(e1@coef, l2 - l1)) + e2@coef
+                  return(polynomial(new_coef))
               }
           }
 )
@@ -95,4 +95,17 @@ setMethod("*", signature(e1 = "bigPoly", e2 = "bigPoly"),
               }
           }
 )
-
+setMethod("==", signature(e1 = "bigPoly", e2 = "bigPoly"),
+          function(e1, e2) {
+              l1 = length(e1@coef)
+              l2 = length(e2@coef)
+              return(l1 == l2 && all(e1@coef == e2@coef))
+          }
+)
+setMethod("!=", signature(e1 = "bigPoly", e2 = "bigPoly"),
+          function(e1, e2) {
+              l1 = length(e1@coef)
+              l2 = length(e2@coef)
+              return(l1 != l2 || any(e1@coef != e2@coef))
+          }
+)
