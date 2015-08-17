@@ -32,4 +32,5 @@ lapply(p, function(e) {
     print(as.character(e))
     print(e, decreasing = TRUE)
     print(as.function(e))
+    print(evaluate(e, x))
 })

@@ -260,3 +260,10 @@ setMethod("as.function", signature(x = "bigPoly"),
               f
           }
 )
+if(!isGeneric("evaluate"))
+    setGeneric("evaluate", function(x, at, ...) standardGeneric("evaluate"))
+setMethod("evaluate", signature(x = "bigPoly"),
+          function(x, at, ...) {
+              as.function(x)(at, ...)
+          }
+)
