@@ -14,6 +14,17 @@ getZero = function(x)
            stop("unsupported type"))
 }
 
+getOne = function(x)
+{
+    switch(class(x),
+           integer = 1L,
+           numeric = 1,
+           bigz = as.bigz(1L),
+           bigq = as.bigq(1L),
+           mpfr = mpfr(1, max(getPrec(x))),
+           stop("unsupported type"))
+}
+
 ## Trim zeros in a vector
 # x = c(0, 0, 2, 3, 4, 5, 0, 0, 1, 0)
 # trimZeros(x)

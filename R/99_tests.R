@@ -19,4 +19,7 @@ lapply(p[1:3], function(e) {
     e + e
     e - e
     e * e
+    e^0
+    e^1
+    e^3
 })

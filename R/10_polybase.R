@@ -36,6 +36,29 @@ setMethod("/", signature(e1 = "bigPoly", e2 = "coef_type"),
               polynomial(e1@coef / e2)
           }
 )
+setMethod("^", signature(e1 = "bigPoly", e2 = "coef_type"),
+          function(e1, e2) {
+              l1 = length(e1@coef)
+              l2 = length(e2)
+              
+              if(l2 != 1L || e2 < 0 || e2 %% 1 != 0)
+                  stop("unsupported polynomial power")
+              
+              e2 = as.integer(e2)
+              if(e2 == 0)
+                  polynomial(getOne(e1@coef))
+              else if(e2 == 1)
+                  e1
+              else {
+                  p = e1
+                  for(i in seq(2L, e2))
+                  {
+                      p = p * e1
+                  }
+                  p
+              }
+          }
+)
 ## Operations between polynomials
 setMethod("+", signature(e1 = "bigPoly", e2 = "bigPoly"),
           function(e1, e2) {
