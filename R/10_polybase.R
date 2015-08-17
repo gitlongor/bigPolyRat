@@ -56,5 +56,20 @@ setMethod("-", signature(e1 = "bigPoly", e2 = "bigPoly"),
               e1 + (-e2)
           }
 )
-
+setMethod("*", signature(e1 = "bigPoly", e2 = "bigPoly"),
+          function(e1, e2) {
+              l1 = length(e1@coef)
+              l2 = length(e2@coef)
+              if(l1 == 1L || l2 == 1L)
+                  polynomial(e1@coef * e2@coef)
+              else {
+                  m = tcrossprod(e1@coef, e2@coef)
+                  dim(m) = NULL
+                  idx = rep(seq(l2), each = l1) + rep(seq(l1), l2)
+                  ans = (outer(unique(idx), idx, '==') * 1) %*% m
+                  dim(ans) = NULL
+                  polynomial(ans)
+              }
+          }
+)
 
