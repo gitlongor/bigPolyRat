@@ -26,4 +26,6 @@ lapply(p[1:3], function(e) {
     print(e != e + polynomial(1))
     print(sum(e, e * 2, e + polynomial(2)))
     print(prod(e, e, e))
+    print((e * e) %/% e)
+    print(e %% e)
 })

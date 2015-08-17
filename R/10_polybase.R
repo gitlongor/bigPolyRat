@@ -64,7 +64,7 @@ setMethod("^", signature(e1 = "bigPoly", e2 = "coef_type"),
 
 
 ## Operations between polynomials
-## TODO: /, %%, %/%
+## TODO: /
 setMethod("+", signature(e1 = "bigPoly", e2 = "bigPoly"),
           function(e1, e2) {
               l1 = length(e1@coef)
@@ -114,7 +114,64 @@ setMethod("!=", signature(e1 = "bigPoly", e2 = "bigPoly"),
               return(l1 != l2 || any(e1@coef != e2@coef))
           }
 )
-
+setMethod("%/%", signature(e1 = "bigPoly", e2 = "bigPoly"),
+          function(e1, e2) {
+              l1 = length(e1@coef)
+              l2 = length(e2@coef)
+              
+              if(l2 == 0L)
+                  stop("division by zero polynomial")
+              if(l2 == 1L)
+                  return(e1 / e2@coef)
+              else {
+                  p = rev(e1@coef)
+                  q = rev(e2@coef)
+                  ## Convert big integer to big rational number
+                  if(is.bigz(p))
+                      p = as.bigq(p)
+                  if(is.bigz(q))
+                      q = as.bigq(q)
+                  r = getZero(e1@coef, l1)
+                  i = 0L
+                  sl2 = seq(l2)
+                  while(length(p) >= l2) {
+                      i = i + 1L
+                      d = p[1L] / q[1L]
+                      r[i] = d
+                      p[sl2] = p[sl2] - d * q
+                      dim(p) = dim(r) = NULL
+                      p = p[-1L]
+                  }
+                  return(polynomial(if(i == 0L) getZero(e1@coef) else r[i:1]))
+              }
+          }
+)
+setMethod("%%", signature(e1 = "bigPoly", e2 = "bigPoly"),
+          function(e1, e2) {
+              l1 = length(e1@coef)
+              l2 = length(e2@coef)
+              
+              if(l2 == 1L)
+                  return(polynomial(getZero(e1@coef)))
+              else {
+                  p = rev(e1@coef)
+                  q = rev(e2@coef)
+                  ## Convert big integer to big rational number
+                  if(is.bigz(p))
+                      p = as.bigq(p)
+                  if(is.bigz(q))
+                      q = as.bigq(q)
+                  sl2 = seq(l2)
+                  while(length(p) >= l2) {
+                      d = p[1L] / q[1L]
+                      p[sl2] = p[sl2] - d * q
+                      dim(p) = NULL
+                      p = p[-1L]
+                  }
+                  return(polynomial(if(length(p) == 0L) getZero(e1@coef) else rev(p)))
+              }
+          }
+)
 
 ## Summary
 setMethod("sum", signature(x = "bigPoly"),
