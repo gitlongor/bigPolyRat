@@ -173,6 +173,7 @@ setMethod("%%", signature(e1 = "bigPoly", e2 = "bigPoly"),
           }
 )
 
+
 ## Summary
 setMethod("sum", signature(x = "bigPoly"),
           function(x, ..., na.rm) {
@@ -182,5 +183,61 @@ setMethod("sum", signature(x = "bigPoly"),
 setMethod("prod", signature(x = "bigPoly"),
           function(x, ..., na.rm) {
               Reduce("*", list(...), x)
+          }
+)
+
+
+## Coerce to character
+setMethod("as.character", signature(x = "bigPoly"),
+          function(x, decreasing = FALSE, ...) {
+              p = x@coef
+              lp = length(p) - 1L
+              zero = getZero(p)
+              idxn0 = p != zero
+              p = p[idxn0]
+              
+              if(length(p) == 0L) return("0")
+              
+              if(decreasing) p = rev(p)
+              
+              signs = ifelse(p < zero, "- ", "+ ")
+              signs[1] = if(signs[1] == "- ") "-" else ""
+              
+              np = (0:lp)[idxn0]
+              if(decreasing) np = rev(np)
+              p = as.character(as.double(abs(p)))
+              p[p == "1" & np != 0] = ""
+              
+              pow = paste("x^", np, sep = "")
+              pow[np == 0] = ""
+              pow[np == 1] = "x"
+              stars = rep.int("*", length(p))
+              stars[p == "" | pow == ""] = ""
+              paste(signs, p, stars, pow, sep = "", collapse = " ")
+          }
+)
+
+
+## Printing
+setMethod("print", signature(x = "bigPoly"),
+          function(x, decreasing = FALSE, ...) {
+              p = as.character(x, decreasing = decreasing)
+              pc = nchar(p)
+              ow = max(35, getOption("width"))
+              m2 = 0
+              while(m2 < pc) {
+                  m1 = m2 + 1
+                  m2 = min(pc, m2 + ow)
+                  if(m2 < pc)
+                      while(substring(p, m2, m2) != " " && m2 > m1 + 1)
+                          m2 = m2 - 1
+                      cat(substring(p, m1, m2), "\n")
+              }
+              invisible(x)
+          }
+)
+setMethod("show", signature(object = "bigPoly"),
+          function(object) {
+              print(object)
           }
 )
