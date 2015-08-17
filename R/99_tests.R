@@ -31,4 +31,5 @@ lapply(p, function(e) {
     print(e %% e)
     print(as.character(e))
     print(e, decreasing = TRUE)
+    print(as.function(e))
 })

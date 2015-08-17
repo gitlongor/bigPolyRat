@@ -46,3 +46,14 @@ trimZeros = function(x, end = 'trailing', empty.OK = TRUE)
     if(end == 'both') Recall(ans, 'leading', empty.OK) else ans
 }
 
+deparseValue = function(x)
+{
+    x = x[1]
+    switch(class(x),
+           integer = call("as.integer", x),
+           numeric = call("as.numeric", x),
+           bigz = call("as.bigz", as.character(x)),
+           bigq = call("as.bigq", as.character(x)),
+           mpfr = call("mpfr", format(x), getPrec(x)),
+           stop("unsupported type"))
+}

@@ -241,3 +241,22 @@ setMethod("show", signature(object = "bigPoly"),
               print(object)
           }
 )
+
+
+## Convert to function
+setMethod("as.function", signature(x = "bigPoly"),
+          function(x, ...) {
+              a = rev(x@coef)
+              w = as.name("w")
+              v = as.name("x")
+              ex = call("{", call("<-", w, deparseValue(getZero(a))))
+              for(i in seq_along(a)) {
+                  ex[[i + 2]] = call("<-", w, call("+", deparseValue(a[1]), call("*", v, w)))
+                  a = a[-1]
+              }
+              ex[[length(ex) + 1]] = w
+              f = function(x) NULL
+              body(f) = ex
+              f
+          }
+)
