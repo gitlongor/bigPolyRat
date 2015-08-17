@@ -3,25 +3,25 @@
 # getZero(as.bigz("23"))
 # getZero(as.bigq(3, 6))
 # getZero(mpfr(4.5, 128))
-getZero = function(x)
+getZero = function(x, len = 1L)
 {
     switch(class(x),
-           integer = 0,
-           numeric = 0,
-           bigz = as.bigz(0),
-           bigq = as.bigq(0),
-           mpfr = mpfr(0, max(getPrec(x))),
+           integer = integer(len),
+           numeric = numeric(len),
+           bigz = as.bigz(integer(len)),
+           bigq = as.bigq(integer(len)),
+           mpfr = mpfr(integer(len), max(getPrec(x))),
            stop("unsupported type"))
 }
 
-getOne = function(x)
+getOne = function(x, len = 1L)
 {
     switch(class(x),
-           integer = 1L,
-           numeric = 1,
-           bigz = as.bigz(1L),
-           bigq = as.bigq(1L),
-           mpfr = mpfr(1, max(getPrec(x))),
+           integer = rep(1L, len),
+           numeric = rep(1, len),
+           bigz = as.bigz(rep(1L, len)),
+           bigq = as.bigq(rep(1L, len)),
+           mpfr = mpfr(rep(1L, len), max(getPrec(x))),
            stop("unsupported type"))
 }
 
