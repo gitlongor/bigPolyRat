@@ -20,6 +20,8 @@ setMethod("-", signature(e1 = "bigPoly", e2 = "missing"),
               polynomial(getZero(e1@coef) - e1@coef)
           }
 )
+
+
 ## Operations with scalar
 setMethod("*", signature(e1 = "bigPoly", e2 = "coef_type"),
           function(e1, e2) {
@@ -59,7 +61,10 @@ setMethod("^", signature(e1 = "bigPoly", e2 = "coef_type"),
               }
           }
 )
+
+
 ## Operations between polynomials
+## TODO: /, %%, %/%
 setMethod("+", signature(e1 = "bigPoly", e2 = "bigPoly"),
           function(e1, e2) {
               l1 = length(e1@coef)
@@ -107,5 +112,18 @@ setMethod("!=", signature(e1 = "bigPoly", e2 = "bigPoly"),
               l1 = length(e1@coef)
               l2 = length(e2@coef)
               return(l1 != l2 || any(e1@coef != e2@coef))
+          }
+)
+
+
+## Summary
+setMethod("sum", signature(x = "bigPoly"),
+          function(x, ..., na.rm) {
+              Reduce("+", list(...), x)
+          }
+)
+setMethod("prod", signature(x = "bigPoly"),
+          function(x, ..., na.rm) {
+              Reduce("*", list(...), x)
           }
 )
