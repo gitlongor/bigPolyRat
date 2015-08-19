@@ -1,7 +1,7 @@
 Package: bigPolyRat
 Title: Univariate Multiple Precision Polynomial Manipulations
-Version: 0.1-0
-Date: 2015-07-31
+Version: 0.1-20150818
+Date: 2015-08-18
 Authors@R: c(person("Bill", "Venables", role = "aut",
                     email = "Bill.Venables@adelaide.edu.au",
                     comment = "S original"),
@@ -15,7 +15,7 @@ Authors@R: c(person("Bill", "Venables", role = "aut",
                     email = "long.qu@wright.edu",
                     comment = "gmp support and real root isolation"), 
              person("Yixuan", "Qiu", role = "aut",
-                    comment = "author of rationalfun"), 
+                    comment = "author of rationalfun & S4 porting"), 
              person("Yan", "Su", role = "aut",
                     comment = "mpfr support")
 					)
@@ -47,9 +47,11 @@ Collate:
     'rf_operatorsf.R'
 	'ratlist.R'
 	'ratlist 2.R'
-	'internals.R'
 	'internals 2.R'
     'rf_deriv_integral.R'
 	'polySolversQ.R'
 	'polySolversZ.R'
 	'polysolverf.R'
+	'00_types.R'
+	'05_internals.R'
+	'10_polybase.R'

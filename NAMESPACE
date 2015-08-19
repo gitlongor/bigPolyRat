@@ -2,7 +2,7 @@ import(gmp)
 import(Rmpfr)
 importFrom("stats", "coef", "deriv", "poly", "predict")
 importFrom("graphics", "lines", "par", "plot", "points")
-#importFrom("varComp", "safeseq")
+import(methods)
 
 export("GCD", "LCM",
        "as.polyzlist", "as.polynomialz",
@@ -28,10 +28,13 @@ export("GCD", "LCM",
 	   'as.rational', 'as.rationalz', 'as.rationalq', 
 	   'is.rational', 'is.rationalz', 'is.rationalq', 
 	   'ratlist', 
-	   'trimZeros', 'uBound', 'lBound', 'sturm', 'squareFree','nRealRoots', 'realRootIso'
+	   'trimZeros', 'uBound', 'lBound', 'sturm', 'squareFree','nRealRoots', 'realRootIso',
 	   
-	   #'evaluate'
+	   
+	   'polynomial', 'evaluate'
 	   )
+exportClasses(bigPoly)
+exportMethods(as.function, print)
 
 S3method("[", "polyzlist")
 S3method("GCD", "polyzlist")
