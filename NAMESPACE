@@ -1,5 +1,7 @@
 import(gmp)
-import(Rmpfr)
+importFrom(Rmpfr, 
+	'Ai', 'all.equal', 'aperm', 'apply', 'Arith', 'as.vector', 'asNumeric', 'atan2', 'Bernoulli', 'beta', 'cbind', 'chooseMpfr', 'chooseMpfr.all', 'coerce', 'coerce<-', 'colMeans', 'colSums', 'Compare', 'Const', 'crossprod', 'dbinom', 'diag', 'diag<-', 'dnorm', 'dpois', 'Ei', 'erf', 'erfc', 'factorial', 'factorialMpfr', 'format', 'formatMpfr', 'getD', 'getPrec', 'hjkMpfr', 'hypot', 'integrateR', 'j0', 'j1', 'jn', 'lbeta', 'Li2', 'Logic', 'Math', 'Math2', 'mean', 'mpfr', 'mpfr.is.0', 'mpfr.is.integer', 'mpfr_default_prec', 'mpfr2array', 'mpfrArray', 'mpfrVersion', 'mpfrXport', 'Ops', 'optimizeR', 'pbetaI', 'pmax', 'pmin', 'pnorm', 'pochMpfr', 'rbind', 'roundMpfr', 'rowMeans', 'rowSums', 'seqMpfr', 'show', 'sumBinomMpfr', 't', 'tcrossprod', 'toNum', 'unique', 'unirootR', 'which.max', 'which.min', 'y0', 'y1', 'yn', 'zeta'
+) # not imported: Summary
 importFrom("stats", "coef", "deriv", "poly", "predict")
 importFrom("graphics", "lines", "par", "plot", "points")
 #importFrom("varComp", "safeseq")
@@ -18,11 +20,20 @@ export("GCD", "LCM",
        #"change.origin",
        #"integral", 
 	   "is.polyqlist", "is.polynomialq",
-       "monic",
+       #"monic",
        #"poly.calc", "poly.from.roots", "poly.from.values",
        #"poly.from.zeros", "poly.orth", 
 	   "polyqlist", "polynomialq",
 	   
+	   "as.polyflist", "as.polynomialf",
+       #"change.origin",
+       #"integral", 
+	   "is.polyflist", "is.polynomialf",
+       #"monic",
+       #"poly.calc", "poly.from.roots", "poly.from.values",
+       #"poly.from.zeros", "poly.orth", 
+	   "polyflist", "polynomialf",
+
 	   'rational', 'decartes', 'degree', 
 	   'numerator', 'denominator', 
 	   'as.rational', 'as.rationalz', 'as.rationalq', 
@@ -108,40 +119,97 @@ S3method('ratlist', 'rationalq')
 S3method('ratlist', 'polyqlist')
 S3method('Ops', 'polyqlist')
 
+S3method("[", "polyflist")
+S3method("GCD", "polyflist")
+S3method("GCD", "polynomialf")
+S3method("LCM", "polyflist")
+S3method("LCM", "polynomialf")
+S3method("Math", "polynomialf")
+S3method("Ops", "polynomialf")
+S3method("Summary", "polyflist")
+S3method("Summary", "polynomialf")
+S3method("as.character", "polynomialf")
+S3method("as.function", "polynomialf")
+S3method("c", "polyflist")
+S3method("coef", "polynomialf")
+S3method("deriv", "polyflist")
+S3method("deriv", "polynomialf")
+S3method("integral", "polyflist")
+#S3method("integral", "polynomialf")
+#S3method("lines", "polynomialf")
+#S3method("plot", "polyflist")
+#S3method("plot", "polynomialf")
+#S3method("points", "polynomialf")
+S3method("predict", "polynomialf")
+S3method("predict", "polyflist")
+S3method("print", "polyflist")
+S3method("print", "polynomialf")
+#S3method("print", "summary.polynomialf")
+S3method("rep", "polyflist")
+S3method("rep", "polynomialf")
+S3method("solve", "polynomialf")
+#S3method("summary", "polynomialf")
+S3method("unique", "polyflist")
+S3method('as.polynomialf', 'default')
+S3method('as.polynomialf', 'polynomialz')
+S3method('as.polynomialf', 'polynomialq')
+S3method('ratlist', 'rationalf')
+S3method('ratlist', 'polyflist')
+S3method('Ops', 'polyflist')
+
+
 S3method('rational', 	'default')
 S3method('rational', 	'polynomialz')
 S3method('rational', 	'polyzlist')
 S3method('rational', 	'polynomialq')
 S3method('rational', 	'polyqlist')
+S3method('rational', 	'polynomialf')
+S3method('rational', 	'polyflist')
 S3method("as.function", "rationalz")
 S3method("as.character", "rationalz")
 S3method("as.function", "rationalq")
 S3method("as.character", "rationalq")
+S3method("as.function", "rationalf")
+S3method("as.character", "rationalf")
 S3method("decartes", "polynomialz")
 S3method("decartes", "polynomialq")
+S3method("decartes", "polynomialf")
 S3method("decartes", "polyzlist")
 S3method("decartes", "polyqlist")
+S3method("decartes", "polyflist")
 S3method("decartes", "bigz")
 S3method("decartes", "bigq")
+S3method("decartes", "mpfr")
 S3method("decartes", "default")
 S3method("degree", "polynomialz")
 S3method("degree", "polynomialq")
+S3method("degree", "polynomialf")
 S3method("degree", "polyzlist")
 S3method("degree", "polyqlist")
+S3method("degree", "polyflist")
 S3method('numerator', 'bigq')
 S3method('numerator', 'rationalz')
 S3method('numerator', 'rationalq')
+S3method('numerator', 'rationalf')
 S3method('denominator', 'bigq')
 S3method('denominator', 'rationalz')
 S3method('denominator', 'rationalq')
+S3method('denominator', 'rationalf')
 S3method('as.rational', 'polynomialz')
 S3method('as.rational', 'polynomialq')
+S3method('as.rational', 'polynomialf')
 S3method('as.rationalq', 'default')
 S3method('as.rationalq', 'rationalz')
+#S3method('as.rationalq', 'rationalf')
 S3method('as.rationalz', 'default')
 S3method('as.rationalz', 'rationalq')
+#S3method('as.rationalz', 'rationalf')
+S3method('as.rationalf', 'default')
+S3method('as.rationalf', 'rationalq')
+#S3method('as.rationalf', 'rationalz')
 S3method('Ops', 'rationalz')
 S3method('Ops', 'rationalq')
+S3method('Ops', 'rationalf')
 S3method('Summary', 'ratlist')
 S3method('denominator', 'ratlist')
 S3method('numerator', 'ratlist')
@@ -149,8 +217,10 @@ S3method('numerator', 'ratlist')
 S3method('trimZeros', 'default')
 S3method('trimZeros', 'bigz')
 S3method('trimZeros', 'bigq')
+S3method('trimZeros', 'mpfr')
 S3method('trimZeros', 'polynomialz')
 S3method('trimZeros', 'polynomialq')
+S3method('trimZeros', 'polynomialf')
 
 S3method('uBound', 'polynomialq')
 S3method('lBound', 'polynomialq')

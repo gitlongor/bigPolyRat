@@ -2,7 +2,8 @@ polynomialf = function(coef = 0, precBits=128L)
 {
   a = if(!is(coef, "mpfr")) mpfr(coef,precBits) else coef
   a = trimZeros(a, 'trailing', empty.OK=FALSE)
-  structure(a, class = "polynomialf")
+  oldClass(a) = "polynomialf"
+  a
 }
 
 as.polynomialf = function(x, ...) UseMethod('as.polynomialf')
@@ -11,42 +12,41 @@ as.polynomialf.default <-function(x, ...)
 #as.polynomialf.polynomialf <-function(x, ...) x
 as.polynomialf.polynomialq <-function(x, precBits=128L, ...) 
 {
-  class(x) = 'bigq'
-  structure(mpfr(x, precBits), class='polynomialf')
+  x=coef(x)
+  ans = mpfr(x, precBits)
+  oldClass(ans)='polynomialf'
+  ans
 }
 as.polynomialf.polynomialz <-function(x, precBits=128L, ...) 
 {
-  class(x) = 'bigz'
-  structure(mpfr(x, precBits), class='polynomialf')
+  x=coef(x)
+  ans = mpfr(x, precBits)
+  oldClass(ans)='polynomialf'
+  ans
 }
 as.polynomialf.default <-function(x, ...) 
   if(is.polynomialf(x)) x else polynomialf(x)
-is.polynomialf = function(x, ...) UseMethod('is.polynomialf')
-is.polynomialf.default = function(x, ...)
+is.polynomialf = function(x, ...) 
   inherits(x, "polynomialf")
 
 length.polynomialf=function(x)length(unclass(x))
 coef.polynomialf=function(object, ...)as(unclass(object),'mpfr')
 rep.polynomialf=function(x, ...) structure(rep(list(x), ...), class='polyflist')
 #degree=function(x, all=FALSE, ...)UseMethod('degree')
-degree.polynomialf=function(x, all=FALSE, ...) if(all) seq_along(x)-1L else length(x)-1L
+degree.polynomialf=function(x, all=FALSE, ...) if(isTRUE(!all)) seq_along(x)-1L else length(x)-1L
 
 Ops.polynomialf <- function(e1, e2)
 {
   .Class = c(.Class, 'mpfr') ## allows NextMethod to choose bigz
-  if(is.polynomialf(e1)) {
-    class(e1) =  'mpfr'
-  }else e1=as(unclass(e1),'mpfr')
+  e1=as(unclass(e1),'mpfr')
   if(missing(e2))
     return(switch(.Generic,
-                  "+" = e1,
+                  "+" = polynomialf(e1),
                   "-" = polynomialf(NextMethod(.Generic)),
                   stop("unsupported unary operation")))
 
   e2.bak=e2 ## for "^"
-  if(is.polynomialf(e2)) {
-    class(e2) =  'mpfr'
-  }else e2 = as(unclass(e2),'mpfr')
+  e2 = as(unclass(e2),'mpfr')
   
   l1 <- length(e1)
   l2 <- length(e2)
@@ -123,7 +123,7 @@ Ops.polynomialf <- function(e1, e2)
   polynomialf(e1.op.e2)
 }
 
-Summary.polynomialf <-
+Summary.polynomialf <-  
   function(..., na.rm = FALSE)
   {
     ok <- switch(.Generic, sum = , prod = TRUE, FALSE)
@@ -131,8 +131,8 @@ Summary.polynomialf <-
       stop(gettextf("Generic '%s' not defined for \"%s\" objects.",
                     .Generic, .Class))
     switch(.Generic,
-           "sum" = Reduce("+", list(...), polynomialf(bf0)),
-           "prod" = Reduce("*", list(...), polynomialf(bf1)))
+           "sum" = Reduce("+", list(...)),
+           "prod" = Reduce("*", list(...)))
   }
 
 Math.polynomialf <-
@@ -149,7 +149,7 @@ Math.polynomialf <-
              x=as(unclass(x),'mpfr')
              NextMethod(.Generic)
            }, 
-           abs = {
+           abs = { ## CHECKME: should this be kept? 
              x=as(unclass(x),'mpfr')
              polynomialf(NextMethod(.Generic))
            },
