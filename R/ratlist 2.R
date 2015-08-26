@@ -64,7 +64,7 @@ numerator.ratlist=function(x)
   } else if(inherits(ans[[1]], 'polynomialq')) {
     'polyqlist'
   } else if(inherits(ans[[1]], 'polynomialf')) {
-    'polyflist'
+    'polyqlist'
   } else stop('unknown numerator class')
   do.call(to.call, ans)
 }
@@ -74,9 +74,9 @@ denominator.ratlist=function(x)
   ans = lapply(x, '[[', 'denominator')
   to.call=if(inherits(ans[[1]], 'polynomialz')) {
     'polyzlist' 
-  } else if(inherits(ans[[1]], 'polynomialq')) {'polyqlist'
+  } else if(inherits(ans[[1]], 'polynomialq')) {
   } else if(inherits(ans[[1]], 'polynomialf')) {
-    'polyflist'
+    'polyqlist'
   } else stop('unknown denominator class')
   do.call(to.call, ans)
 }
