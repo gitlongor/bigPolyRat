@@ -14,8 +14,7 @@ as.polynomialq.polynomialz <-function(x, ...)
 	class(x) = 'bigz'
 	structure(as.bigq(x), class='polynomialq')
 }
-is.polynomialq = function(x, ...) UseMethod('is.polynomialq')
-is.polynomialq.default = function(x, ...)
+is.polynomialq = function(x, ...)
     inherits(x, "polynomialq")
 
 length.polynomialq=function(x)length(as.bigq(x))

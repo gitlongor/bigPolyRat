@@ -16,11 +16,10 @@ as.polynomialz.polynomialq <-function(x, ...)
 }
 as.polynomialz.default <-function(x, ...) 
 	if(is.polynomialz(x)) x else polynomialz(x)
-is.polynomialz = function(x, ...) UseMethod('is.polynomialz')
-is.polynomialz.default = function(x, ...)
+is.polynomialz = function(x, ...)
     inherits(x, "polynomialz")
 
-length.polynomialz=function(x)length(as.bigz(x))
+length.polynomialz=function(x)length(as.bigz(x)) # FIXME
 coef.polynomialz=function(object, ...)as.bigz(object)
 rep.polynomialz=function(x, ...) structure(rep(list(x), ...), class='polyzlist')
 degree=function(x, all=FALSE, ...)UseMethod('degree')
