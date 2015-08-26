@@ -6,12 +6,12 @@ is.polyflist <- function(x) inherits(x, "polyflist")
 as.polyflist <- function(x)
 {
   if(is.polyflist(x)) x
-  else if(is.list(x)) do.call('polyflist', x)
+  else if(is.list(x) && !is.polynomialf(x)) do.call('polyflist', x)
   else polyflist(x)
 }
 
-deriv.polyflist <- function(expr, ...)  
-  structure(lapply(expr, deriv), class = class(expr))
+deriv.polyflist <- deriv.polyzlist 
+#function(expr, ...)  structure(lapply(expr, deriv), class = class(expr))
 
 integral.polyflist =
 function(expr, ...)
@@ -87,8 +87,8 @@ Summary.polyflist <-
       stop(gettextf("Generic '%s' not defined for \"%s\" objects.",
                     .Generic, .Class))
     switch(.Generic,
-           "sum" = Reduce("+", c(...), as.polynomialf(0)),
-           "prod" = Reduce("*", c(...), as.polynomialf(1)))
+           "sum" = Reduce("+", c(...)),
+           "prod" = Reduce("*", c(...)))
   }
 
 Ops.polyflist = function(e1, e2)
@@ -96,7 +96,7 @@ Ops.polyflist = function(e1, e2)
   if(missing(e2))
     return(switch(.Generic,
                   "+" = e1,
-                  "-" = e1 * (-1),
+                  "-" = as.polyflist(lapply(e1, "-")),
                   stop("unsupported unary operation")))
   e2.bak=e2
   if(!is.polyflist(e1)) e1=as.polyflist(as.polynomialf(e1))

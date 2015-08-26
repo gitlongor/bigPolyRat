@@ -1,7 +1,7 @@
 import(gmp)
 importFrom(Rmpfr, 
-	'Ai', 'all.equal', 'aperm', 'apply', 'Arith', 'as.vector', 'asNumeric', 'atan2', 'Bernoulli', 'beta', 'cbind', 'chooseMpfr', 'chooseMpfr.all', 'coerce', 'coerce<-', 'colMeans', 'colSums', 'Compare', 'Const', 'crossprod', 'dbinom', 'diag', 'diag<-', 'dnorm', 'dpois', 'Ei', 'erf', 'erfc', 'factorial', 'factorialMpfr', 'format', 'formatMpfr', 'getD', 'getPrec', 'hjkMpfr', 'hypot', 'integrateR', 'j0', 'j1', 'jn', 'lbeta', 'Li2', 'Logic', 'Math', 'Math2', 'mean', 'mpfr', 'mpfr.is.0', 'mpfr.is.integer', 'mpfr_default_prec', 'mpfr2array', 'mpfrArray', 'mpfrVersion', 'mpfrXport', 'Ops', 'optimizeR', 'pbetaI', 'pmax', 'pmin', 'pnorm', 'pochMpfr', 'rbind', 'roundMpfr', 'rowMeans', 'rowSums', 'seqMpfr', 'show', 'sumBinomMpfr', 't', 'tcrossprod', 'toNum', 'unique', 'unirootR', 'which.max', 'which.min', 'y0', 'y1', 'yn', 'zeta'
-) # not imported: Summary
+	'Ai', 'all.equal', 'aperm',  'Arith', 'as.vector', 'asNumeric', 'atan2', 'Bernoulli', 'beta', 'cbind', 'chooseMpfr', 'chooseMpfr.all', 'coerce', 'coerce<-', 'colMeans', 'colSums', 'Compare', 'Const', 'crossprod', 'dbinom', 'diag', 'diag<-', 'dnorm', 'dpois', 'Ei', 'erf', 'erfc', 'factorial', 'factorialMpfr', 'format', 'formatMpfr', 'getD', 'getPrec', 'hjkMpfr', 'hypot', 'integrateR', 'j0', 'j1', 'jn', 'lbeta', 'Li2', 'Logic', 'Math', 'Math2', 'mean', 'mpfr', 'mpfr.is.0', 'mpfr.is.integer', 'mpfr_default_prec', 'mpfr2array', 'mpfrArray', 'mpfrVersion', 'mpfrXport', 'Ops', 'optimizeR', 'pbetaI', 'pmax', 'pmin', 'pnorm', 'pochMpfr', 'rbind', 'roundMpfr', 'rowMeans', 'rowSums', 'seqMpfr', 'show', 'sumBinomMpfr', 't', 'tcrossprod', 'toNum', 'unique', 'unirootR', 'which.max', 'which.min', 'y0', 'y1', 'yn', 'zeta'
+) # not imported: 'apply', 'Summary'
 importFrom("stats", "coef", "deriv", "poly", "predict")
 importFrom("graphics", "lines", "par", "plot", "points")
 #importFrom("varComp", "safeseq")

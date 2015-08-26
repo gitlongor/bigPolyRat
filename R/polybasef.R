@@ -33,7 +33,7 @@ length.polynomialf=function(x)length(unclass(x))
 coef.polynomialf=function(object, ...)as(unclass(object),'mpfr')
 rep.polynomialf=function(x, ...) structure(rep(list(x), ...), class='polyflist')
 #degree=function(x, all=FALSE, ...)UseMethod('degree')
-degree.polynomialf=function(x, all=FALSE, ...) if(isTRUE(!all)) seq_along(x)-1L else length(x)-1L
+degree.polynomialf=function(x, all=FALSE, ...) if(isTRUE(all)) seq_along(x)-1L else length(x)-1L
 
 Ops.polynomialf <- function(e1, e2)
 {

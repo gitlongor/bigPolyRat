@@ -13,7 +13,7 @@ as.polyqlist <- function(x)
 deriv.polyqlist <- deriv.polyzlist 
 #function(expr, ...)  structure(lapply(expr, deriv), class = class(expr))
 
-integral.polyqlist <- integral.polyzlist 
+integral.polyqlist <- integral.polyzlist # CHECKME
 #function(expr, ...)
 #{
 #    result <- lapply(expr, integral, ...)
@@ -87,8 +87,8 @@ function(..., na.rm = FALSE)
         stop(gettextf("Generic '%s' not defined for \"%s\" objects.",
                       .Generic, .Class))
     switch(.Generic,
-           "sum" = Reduce("+", c(...), as.polynomialq(0)),
-           "prod" = Reduce("*", c(...), as.polynomialq(1)))
+           "sum" = Reduce("+", c(...)),
+           "prod" = Reduce("*", c(...)))
 }
 
 Ops.polyqlist = function(e1, e2)

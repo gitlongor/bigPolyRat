@@ -94,7 +94,7 @@ Ops.polyzlist = function(e1, e2)
     if(missing(e2))
         return(switch(.Generic,
                       "+" = e1,
-                      "-" = e1 * (-1),
+                      "-" = as.polyzlist(lapply(e1, "-")),
                       stop("unsupported unary operation")))
 	e2.bak=e2
 	if(!is.polyzlist(e1)) e1=as.polyzlist(as.polynomialz(e1))
