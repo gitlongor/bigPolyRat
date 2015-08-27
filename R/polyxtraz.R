@@ -252,14 +252,24 @@ solve.polynomialz <-function(a, b, method='polyroot', ...)
 
 
 
-.GCD2.polynomialz <- function(x, y)
+.GCD2.polynomialz <- function(x, y) ## CHECKME
 {
-    if(.is_zero_polynomial(y)) as.polynomialq(x)
-    else if(degree(y) == 0) as.polynomialq(1)
+    if(.is_zero_polynomial(y)) as.polynomialz(x)
+    else if(degree(y) == 0) as.polynomialz(bz1)
     else {
-		x=as.polynomialq(x)
-		y=as.polynomialq(y)
-		.GCD2.polynomialq(y, x %% y)
+		degx=degree(x); degy=degree(y)
+		if(degx<degy){
+			tmp=x; x=y; y=tmp
+			tmp=degx; degx=degy; degy=tmp
+		}
+		lead.coef.y=coef(y)[degy+1L]
+		x=x*polynomialz(lead.coef.y^(degx-degy+1L))
+		y=as.polynomialz(y)
+		rem = as.polynomialz(x%%y)
+		ans = Recall(y, rem)
+		gcd.coef=Reduce(gcd, coef(ans))
+		new.coef=as.bigz( coef(ans) / gcd.coef )
+		polynomialz(new.coef)
 	}
 }
 
@@ -267,9 +277,9 @@ solve.polynomialz <-function(a, b, method='polyroot', ...)
 {
     if(.is_zero_polynomial(x) || .is_zero_polynomial(y))
         return(as.polynomialq(0))
- 		x=as.polynomialq(x)
-		y=as.polynomialq(y)
-		(x %/% .GCD2.polynomialq(x, y)) * y
+	x=as.polynomialq(x)
+	y=as.polynomialq(y)
+	(x %/% .GCD2.polynomialq(x, y)) * y
 }
 
 GCD <- function(...)  UseMethod("GCD")
