@@ -1,7 +1,7 @@
 # rational = function(numerator, denominator,...) UseMethod('rational',numerator)
 # rational.default = function(nuemrator=0, denominator=1, SIMPLIFY=FALSE, ...) 
 	# rational(as.polynomialq(numerator), as.polynomialq(denominator), SIMPLIFY...)
-rational.polynomialq <- function(numerator =polynomialq(0), denominator = polynomialq(1), SIMPLIFY=FALSE,...)
+rational.polynomialq <- function(numerator =polynomialq(bq0), denominator = polynomialq(bq1), SIMPLIFY=FALSE,...)
 {
 	fun <- list(numerator = as.polynomialq(numerator),
                 denominator = as.polynomialq(denominator));

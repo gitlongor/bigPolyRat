@@ -29,7 +29,9 @@ as.rational.default = function(x, ...)
 {
 	if(is.integer(x)) {
 			rational(polynomiaz(x), ...)
-	}else   rational(polynomiaq(x), ...)
+	}else if(is.bigq(x) || is.polynomialq(x))  {
+			rational(polynomiaq(x), ...)
+	}else   rational(polynomiaf(x), ...)
 }
 as.rational.polynomialz = function(x, ...)rational(x, ...)
 
@@ -41,7 +43,7 @@ as.rationalz.rationalq=function(x,...)
 	rational(as.polynomialz(x$numerator), as.polynomialz(x$denominator), attr(x, 'simplified'))
 }
 is.rational=function(x)
-	inherits(x, c('rationalz', 'rationalq'))
+	inherits(x, c('rationalz', 'rationalq', 'rationalf'))
 is.rationalz=function(x)
 	inherits(x, 'rationalz')
 
