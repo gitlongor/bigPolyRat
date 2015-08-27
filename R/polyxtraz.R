@@ -256,14 +256,20 @@ solve.polynomialz <-function(a, b, method='polyroot', ...)
 {
     if(.is_zero_polynomial(y)) as.polynomialq(x)
     else if(degree(y) == 0) as.polynomialq(1)
-    else .GCD2.polynomialq(y, x %% y)
+    else {
+		x=as.polynomialq(x)
+		y=as.polynomialq(y)
+		.GCD2.polynomialq(y, x %% y)
+	}
 }
 
 .LCM2.polynomialz <- function(x, y)
 {
     if(.is_zero_polynomial(x) || .is_zero_polynomial(y))
         return(as.polynomialq(0))
-    (x %/% .GCD2.polynomialq(x, y)) * y
+ 		x=as.polynomialq(x)
+		y=as.polynomialq(y)
+		(x %/% .GCD2.polynomialq(x, y)) * y
 }
 
 GCD <- function(...)  UseMethod("GCD")
@@ -272,7 +278,7 @@ GCD.polynomialz <- function(...) {
     args <- c.polyzlist(...)
     if(length(args) < 2)
         stop("Need at least two polynomials.")
-    Reduce(.GCD2.polynomialz, args[-1], args[[1]])
+    Reduce(.GCD2.polynomialz, args)
 }
 GCD.polyzlist <- GCD.polynomialz
 

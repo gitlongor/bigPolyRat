@@ -80,7 +80,7 @@ S3method('as.polynomialz', 'polynomialq')
 S3method('ratlist', 'rationalz')
 S3method('ratlist', 'polyzlist')
 S3method('Ops', 'polyzlist')
-
+S3method('monic', 'polynomialz')
 
 S3method("[", "polyqlist")
 S3method("GCD", "polyqlist")
@@ -118,6 +118,7 @@ S3method('as.polynomialq', 'polynomialz')
 S3method('ratlist', 'rationalq')
 S3method('ratlist', 'polyqlist')
 S3method('Ops', 'polyqlist')
+S3method('monic', 'polynomialq')
 
 S3method("[", "polyflist")
 S3method("GCD", "polyflist")
@@ -156,6 +157,7 @@ S3method('as.polynomialf', 'polynomialq')
 S3method('ratlist', 'rationalf')
 S3method('ratlist', 'polyflist')
 S3method('Ops', 'polyflist')
+S3method('monic', 'polynomialf')
 
 
 S3method('rational', 	'default')

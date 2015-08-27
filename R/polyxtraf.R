@@ -3,9 +3,9 @@
 deriv.polynomialf <-
     function(expr, ...)
     {
-        class(expr) = 'mpfr'
+        expr = coef(expr)
         if(length(expr) == 1L)
-            return(polynomialf(0L))
+            return(polynomialf(bf0))
         expr <- expr[-1L]
         polynomialf(expr * seq_len(length(expr)))
     }
@@ -13,7 +13,7 @@ deriv.polynomialf <-
 predict.polynomialf <-
     function(object, newdata, ...)
     {
-        if(!is.polynomialf(newdata)) newdata=mpfr(newdata,128)
+        if(!is.polynomialf(newdata)) newdata=mpfr(newdata,defaultBits)
         p <- object
         
         if(is.polynomialf(newdata)){
@@ -189,12 +189,12 @@ if(FALSE){
             length(unclass(x)) - 1
     
 }
-.is_zero_polynomial = function(x) degree(x)==0L && coef(x)==0
+#.is_zero_polynomial = function(x) degree(x)==0L && coef(x)==0
 
-monic = function(p) UseMethod('monic')
+#monic = function(p) UseMethod('monic')
 monic.polynomialf <- function(p)
 {
-    class(p) = 'mpfr'
+    p = coef(p)
     if(all(p == bf0)) {
         warning("the zero polynomial has no monic form")
         return(polynomialf(bf0))
@@ -202,6 +202,7 @@ monic.polynomialf <- function(p)
     polynomialf(p/p[length(p)])
 }
 
+if(FALSE){
 solve.polynomialf <-function(a, b, method='polyroot', ...)
 {
     method = match.arg(method, c('polyroot', 'eigen', 'bracket'))
@@ -232,14 +233,14 @@ solve.polynomialf <-function(a, b, method='polyroot', ...)
         .NotYetImplemented()
     }
 }
-
+}
 
 
 .GCD2.polynomialf <- function(x, y)
 {
     if(.is_zero_polynomial(y)) x
     else if(degree(y) == 0) as.polynomialf(1)
-    else .GCD2.polynomialq(y, x %% y)
+    else Recall(y, x %% y)
 }
 
 .LCM2.polynomialf <- function(x, y)
@@ -249,19 +250,19 @@ solve.polynomialf <-function(a, b, method='polyroot', ...)
     (x %/% .GCD2.polynomialf(x, y)) * y
 }
 
-GCD <- function(...)  UseMethod("GCD")
+#GCD <- function(...)  UseMethod("GCD")
 
 GCD.polynomialf <- function(...) {
-    args <- c.polyzlist(...)
+    args <- c.polyflist(...)
     if(length(args) < 2)
         stop("Need at least two polynomials.")
-    Reduce(.GCD2.polynomialf, args[-1], args[[1]])
+    Reduce(.GCD2.polynomialf, args)
 }
 GCD.polyflist <- GCD.polynomialf
 
 
 
-LCM <- function(...)   UseMethod("LCM")
+#LCM <- function(...)   UseMethod("LCM")
 
 LCM.polynomialf <- function(...) {
     args <- c.polyflist(...)
@@ -271,16 +272,6 @@ LCM.polynomialf <- function(...) {
 }
 LCM.polyflist <- LCM.polynomialf
 
-decartes = function(p) UseMethod('decartes')
-decartes.default = function(p)
-{
-    sgns=sign(p)
-    sgns=sgns[sgns!=0L]
-    if(length(sgns)==0L){
-        NA_integer_
-    }else if(length(sgns)==1L){
-        0L
-    }else length(rle(sgns)$length) - 1L
-}
+#decartes = function(p) UseMethod('decartes')
 decartes.mpfr = decartes.default
 decartes.polynomialf = decartes.mpfr

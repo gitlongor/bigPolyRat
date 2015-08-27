@@ -205,7 +205,7 @@ monic.polynomialq <- function(p)
 }
 
 .GCD2.polynomialq <- function(x, y)
-{
+{	force(x)
     if(.is_zero_polynomial(y)) x
     else if(degree(y) == 0) as.polynomialq(1)
     else Recall(y, x %% y)
@@ -224,19 +224,19 @@ GCD.polynomialq <-  function(...) {
     args <- c.polyqlist(...)
     if(length(args) < 2)
         stop("Need at least two polynomials.")
-    Reduce(.GCD2.polynomialq, args[-1], args[[1]])
+    Reduce(.GCD2.polynomialq, args)
 }
 GCD.polyqlist <- GCD.polynomialq
 
 
 #LCM <- function(...)   UseMethod("LCM")
 
-LCM.polynomialq <-LCM.polynomialz
+LCM.polynomialq <-
 function(...) {
     args <- c.polyqlist(...)
     if(length(args) < 2)
         stop("Need at least two polynomials.")
-    Reduce(.LCM2.polynomialq,  args[-1], args[[1]])
+    Reduce(.LCM2.polynomialq,  args)
 }
 LCM.polyqlist <- LCM.polynomialq
 
