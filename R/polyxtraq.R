@@ -205,7 +205,7 @@ monic.polynomialq <- function(p)
 }
 
 .GCD2.polynomialq <- function(x, y)
-{	force(x)
+{
     if(.is_zero_polynomial(y)) x
     else if(degree(y) == 0) as.polynomialq(1)
     else Recall(y, x %% y)

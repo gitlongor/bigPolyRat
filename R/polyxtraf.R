@@ -235,18 +235,17 @@ solve.polynomialf <-function(a, b, method='polyroot', ...)
 }
 }
 
-
 .GCD2.polynomialf <- function(x, y)
 {
     if(.is_zero_polynomial(y)) x
-    else if(degree(y) == 0) as.polynomialf(1)
-    else Recall(y, x %% y)
+	else if(degree(y)==0L) polynomialf(mpfr(1, max(getPrec(x), getPrec(y))))
+	else Recall(y, x %% y)
 }
 
 .LCM2.polynomialf <- function(x, y)
 {
     if(.is_zero_polynomial(x) || .is_zero_polynomial(y))
-        return(as.polynomialq(0))
+        return(polynomialf(mpfr(0, max(getPrec(x), getPrec(y)))))
     (x %/% .GCD2.polynomialf(x, y)) * y
 }
 
@@ -268,7 +267,7 @@ LCM.polynomialf <- function(...) {
     args <- c.polyflist(...)
     if(length(args) < 2)
         stop("Need at least two polynomials.")
-    Reduce(.LCM2.polynomialf,  args[-1], args[[1]])
+    Reduce(.LCM2.polynomialf,  args)
 }
 LCM.polyflist <- LCM.polynomialf
 
