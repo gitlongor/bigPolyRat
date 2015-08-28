@@ -279,7 +279,14 @@ solve.polynomialz <-function(a, b, method='polyroot', ...)
         return(as.polynomialq(0))
 	x=as.polynomialq(x)
 	y=as.polynomialq(y)
-	(x %/% .GCD2.polynomialq(x, y)) * y
+	ans = (x %/% .GCD2.polynomialq(x, y)) * y
+	coefs = coef(ans)
+	denom.coef=denominator(coefs)
+	lcm.denom = Reduce('lcm.bigz',denom.coef)
+	new.coefq = coefs * as.bigq(lcm.denom)
+	gcd.coefq = Reduce('gcd', new.coefq)
+	new.coefz = as.bigz(new.coefq / gcd.coefq)
+	polynomialz(new.coefz)
 }
 
 GCD <- function(...)  UseMethod("GCD")
@@ -300,7 +307,7 @@ LCM.polynomialz <- function(...) {
     args <- c.polyzlist(...)
     if(length(args) < 2)
         stop("Need at least two polynomials.")
-    Reduce(.LCM2.polynomialz,  args[-1], args[[1]])
+    Reduce(.LCM2.polynomialz,  args)
 }
 LCM.polyzlist <- LCM.polynomialz
 
