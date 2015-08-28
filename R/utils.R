@@ -17,6 +17,7 @@ bqn1 = as.bigq(-1L)
 bf0 = mpfr(0,defaultBits)
 bf1 = mpfr(1,defaultBits)
 bfn1 = mpfr(-1,defaultBits)
+log10.2=log10(mpfr(2, 2^20))
 trimZeros = function(x, end='trailing', empty.OK=TRUE) UseMethod('trimZeros')
 trimZeros.default=function(x, end='trailing', empty.OK=TRUE)
 {
@@ -54,11 +55,16 @@ trimZeros.bigq=function(x, end='trailing', empty.OK=TRUE)
   if(trailing) ans = rev(ans)
   if(end=='both') Recall(ans, 'leading', empty.OK) else ans
 }
-trimZeros.mpfr=function(x, end='trailing', empty.OK=TRUE)
+trimZeros.mpfr=function(x, end='trailing', empty.OK=TRUE, zapsmall=TRUE)
 {
   end = match.arg(end, c('leading','trailing','both'))
   trailing = any(end==c('trailing','both'))
   
+  if(zapsmall){
+	precs=getPrec(x); eps = as.bigq(1, as.integer(floor(log10.2*precs))-1L)
+	idx = abs(x)<=eps
+	x[idx]=mpfr(0, precs[idx])
+  }
   if(trailing) x=rev(x)
   nzeros=sum(cumsum(abs(x))==bf0)
   ans = if(nzeros>0) x[-seq(nzeros)] else x
